@@ -103,7 +103,7 @@ function Sub({
 
 function StatusHeader() {
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex flex-col gap-1">
       <div className="flex items-center gap-2 font-mono text-[12px] font-medium text-text">
         <span
           className="w-[7px] h-[7px] rounded-full bg-green shrink-0"

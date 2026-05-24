@@ -1,0 +1,54 @@
+#!/usr/bin/env sh
+
+# Enhanced protected branch prevention script for pre-commit
+current_branch=$(git symbolic-ref --short HEAD 2>/dev/null)
+protected_branches=("prod")
+
+# Function to check if array contains value
+contains() {
+    local seeking=$1
+    shift
+    local array=("$@")
+    for element in "${array[@]}"; do
+        if [ "$element" = "$seeking" ]; then
+            return 0
+        fi
+    done
+    return 1
+}
+
+# If we can't determine branch (e.g., in a detached HEAD state), allow commit
+if [ -z "$current_branch" ]; then
+    echo "⚠️  Cannot determine current branch, allowing commit..."
+    exit 0
+fi
+
+# Check if current branch is protected
+if contains "$current_branch" "${protected_branches[@]}"; then
+    echo "🚫 PROTECTED BRANCH COMMIT PREVENTED"
+    echo "========================================"
+    echo "You are attempting to commit to: $current_branch"
+    echo ""
+    echo "Protected branches:"
+    for branch in "${protected_branches[@]}"; do
+        echo "  - $branch"
+    done
+    echo ""
+    echo "Recommended workflow:"
+    echo "1. Create a feature branch: git checkout -b feat/your-feature"
+    echo "2. Make your changes and commit"
+    echo "3. Push the feature branch: git push origin feat/your-feature"
+    echo "4. Create a pull request on GitHub"
+    echo ""
+    echo "If this is an emergency and need to commit, use:"
+    echo "git commit --no-verify"
+    echo "========================================"
+    exit 1
+fi
+
+echo "✅ Commit allowed for branch: $current_branch"
+
+# Run lint-staged on non-protected branches
+echo "🔍 Running lint-staged..."
+npx lint-staged
+

@@ -89,7 +89,7 @@ export function Hero() {
       <GridBackground />
       <CircuitTraces />
 
-      <div className="relative z-10 max-w-[1240px] mx-auto px-8 py-20">
+      <div className="relative z-10 max-w-[1240px] mx-auto px-4 sm:px-8 py-12 sm:py-20">
         {/* Meta row */}
         <div className="flex flex-wrap gap-x-7 gap-y-2 mb-8 font-mono text-[11px] tracking-widest uppercase text-text-3">
           <span>
@@ -124,7 +124,7 @@ export function Hero() {
         </h1>
 
         {/* Tagline */}
-        <p className="font-sans text-text-2 text-lg leading-relaxed mb-10 max-w-xl">
+        <p className="font-sans text-text-2 text-base sm:text-lg leading-relaxed mb-10 max-w-xl">
           Full Stack Engineer.
           <br />
           <span className="text-text-3 font-mono text-sm">// </span>

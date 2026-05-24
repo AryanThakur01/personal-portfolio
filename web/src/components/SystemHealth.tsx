@@ -31,7 +31,7 @@ function relTime(deltaMs: number) {
 // --- sparkline ---
 
 function Sparkline({ data }: { data: number[] }) {
-  const W = 160,
+  const W = 200,
     H = 24;
   const max = Math.max(...data);
   const min = Math.min(...data);
@@ -39,7 +39,7 @@ function Sparkline({ data }: { data: number[] }) {
   const pts = data
     .map((v, i) => {
       const x = (i / (data.length - 1)) * W;
-      const y = H - ((v - min) / range) * H;
+      const y = H - ((v - min) / range) * (H - 2);
       return `${x.toFixed(1)},${y.toFixed(1)}`;
     })
     .join(" ");
@@ -48,24 +48,26 @@ function Sparkline({ data }: { data: number[] }) {
     <svg
       viewBox={`0 0 ${W} ${H}`}
       preserveAspectRatio="none"
-      className="block w-full mt-1.5"
+      className="absolute bottom-0 left-0 right-0 w-full opacity-55"
       style={{ height: H }}
+      aria-hidden="true"
     >
       <polyline points={pts} fill="none" stroke="#06b6d4" strokeWidth="1.2" />
     </svg>
   );
 }
 
-// --- shared sub-components ---
+// --- shared primitives ---
 
 function Label({ children }: { children: React.ReactNode }) {
   return (
-    <div className="font-mono text-[10px] tracking-[0.12em] uppercase text-text-3 mb-1">
+    <div className="font-mono text-[10px] tracking-[0.12em] uppercase text-text-3 mb-2 flex items-center gap-2">
       {children}
     </div>
   );
 }
 
+// value + optional unit sit side-by-side on baseline
 function Value({
   children,
   unit,
@@ -74,13 +76,9 @@ function Value({
   unit?: string;
 }) {
   return (
-    <div className="font-mono text-[22px] font-medium text-text leading-tight">
+    <div className="font-mono text-[18px] text-text tracking-[-0.01em] flex items-baseline gap-1.5">
       {children}
-      {unit && (
-        <span className="text-[12px] text-text-3 ml-0.5 font-normal">
-          {unit}
-        </span>
-      )}
+      {unit && <span className="text-[11px] text-text-3 font-normal">{unit}</span>}
     </div>
   );
 }
@@ -93,27 +91,8 @@ function Sub({
   accent?: boolean;
 }) {
   return (
-    <div
-      className={`font-mono text-[11px] mt-0.5 ${accent ? "text-accent" : "text-text-3"}`}
-    >
+    <div className={`font-mono text-[11px] ${accent ? "text-accent" : "text-text-3"}`}>
       {children}
-    </div>
-  );
-}
-
-function StatusHeader() {
-  return (
-    <div className="flex flex-col gap-1">
-      <div className="flex items-center gap-2 font-mono text-[12px] font-medium text-text">
-        <span
-          className="w-[7px] h-[7px] rounded-full bg-green shrink-0"
-          style={{ boxShadow: "0 0 8px #22c55e" }}
-        />
-        aryanthakur.dev — LIVE
-      </div>
-      <div className="font-mono text-[11px] text-text-3">
-        prod · us-east-1 · v2.14.0
-      </div>
     </div>
   );
 }
@@ -134,77 +113,108 @@ export function SystemHealth() {
   const p95 = Math.round(jitter(96, 18, t, 1.3));
   const cacheHit = jitter(94.6, 1.4, t, 2.1).toFixed(2);
 
-  const deployAgo = useMemo(() => {
-    const deployedAt = Date.now() - 1000 * 60 * 27;
-    return relTime(Date.now() - deployedAt);
-  }, [t]);
+  // fixed anchor so it ticks up naturally each render
+  const deployedAt = useRef(Date.now() - 1000 * 60 * 27);
+  const deployAgo = relTime(Date.now() - deployedAt.current);
+
+  // shared cell class
+  const cell =
+    "relative min-h-[84px] py-[18px] px-[22px] border-r border-border";
 
   return (
     <div id="status" className="border-y border-border bg-bg-card">
 
-      {/* ── Mobile layout (grid) ── */}
-      <div className="md:hidden">
-        {/* Header — full width */}
-        <div className="px-4 py-3 border-b border-border">
-          <StatusHeader />
+      {/* ── Desktop grid ── */}
+      <div
+        className="hidden md:grid border-l border-border"
+        style={{ gridTemplateColumns: "240px repeat(4, 1fr)" }}
+      >
+        {/* Header cell — slightly darker bg */}
+        <div className={`${cell} bg-bg flex flex-col justify-center`}>
+          <div className="font-mono text-[13px] text-text flex items-center gap-2">
+            <span
+              className="w-2 h-2 rounded-full bg-green shrink-0"
+              style={{
+                boxShadow: "0 0 0 4px rgba(34,197,94,0.15)",
+                animation: "pulse-dot 2.4s infinite",
+              }}
+            />
+            aryanthakur.dev — LIVE
+          </div>
+          <div className="font-mono text-[10px] tracking-[0.1em] uppercase text-text-3 mt-1.5">
+            prod · us-east-1 · v2.14.0
+          </div>
         </div>
-        {/* 2×2 metric grid */}
-        <div className="grid grid-cols-2">
-          <div className="px-4 py-3.5 border-r border-b border-border">
-            <Label>API LATENCY</Label>
-            <Value unit="ms p50">{p50}</Value>
-            <Sub>{p95}ms p95</Sub>
-            <Sparkline data={history.current} />
-          </div>
-          <div className="px-4 py-3.5 border-b border-border">
-            <Label>LAST DEPLOY</Label>
-            <Value>{deployAgo}</Value>
-            <Sub accent>a4f9c2e · main</Sub>
-          </div>
-          <div className="px-4 py-3.5 border-r border-border">
-            <Label>UPTIME · 30d</Label>
-            <Value unit="%">99.987</Value>
-            <Sub>12 incidents · 0 user-facing</Sub>
-          </div>
-          <div className="px-4 py-3.5">
-            <Label>CACHE HIT</Label>
-            <Value unit="%">{cacheHit}</Value>
-            <Sub>CloudFront edge · 247 POPs</Sub>
-          </div>
+
+        {/* API Latency — sparkline pinned to bottom */}
+        <div className={cell}>
+          <Label>API LATENCY</Label>
+          <Value unit="ms p50">{p50}</Value>
+          <Sub>{p95}ms p95</Sub>
+          <Sparkline data={history.current} />
+        </div>
+
+        {/* Last Deploy */}
+        <div className={cell}>
+          <Label>LAST DEPLOY</Label>
+          <Value>{deployAgo}</Value>
+          <Sub accent>a4f9c2e · main</Sub>
+        </div>
+
+        {/* Uptime */}
+        <div className={cell}>
+          <Label>UPTIME · 30d</Label>
+          <Value unit="%">99.987</Value>
+          <Sub>12 incidents · 0 user-facing</Sub>
+        </div>
+
+        {/* Cache hit */}
+        <div className={cell}>
+          <Label>CACHE HIT</Label>
+          <Value unit="%">{cacheHit}</Value>
+          <Sub>CloudFront edge · 247 POPs</Sub>
         </div>
       </div>
 
-      {/* ── Desktop layout (full-width equal columns) ── */}
-      <div className="hidden md:flex">
-          {/* Header cell */}
-          <div className="flex-1 flex flex-col justify-center px-5 py-3.5 border-r border-border">
-            <StatusHeader />
+      {/* ── Mobile grid ── */}
+      <div className="md:hidden">
+        {/* Full-width header */}
+        <div className="bg-bg px-4 py-3.5 border-b border-border flex flex-col gap-1">
+          <div className="font-mono text-[13px] text-text flex items-center gap-2">
+            <span
+              className="w-2 h-2 rounded-full bg-green shrink-0"
+              style={{ boxShadow: "0 0 0 4px rgba(34,197,94,0.15)", animation: "pulse-dot 2.4s infinite" }}
+            />
+            aryanthakur.dev — LIVE
           </div>
-          {/* API Latency */}
-          <div className="flex-1 px-5 py-3.5 border-r border-border">
+          <div className="font-mono text-[10px] tracking-[0.1em] uppercase text-text-3">
+            prod · us-east-1 · v2.14.0
+          </div>
+        </div>
+        {/* 2×2 metric grid */}
+        <div className="grid grid-cols-2">
+          <div className="relative px-4 py-4 border-r border-b border-border min-h-[84px]">
             <Label>API LATENCY</Label>
             <Value unit="ms p50">{p50}</Value>
             <Sub>{p95}ms p95</Sub>
             <Sparkline data={history.current} />
           </div>
-          {/* Last Deploy */}
-          <div className="flex-1 px-5 py-3.5 border-r border-border">
+          <div className="relative px-4 py-4 border-b border-border min-h-[84px]">
             <Label>LAST DEPLOY</Label>
             <Value>{deployAgo}</Value>
             <Sub accent>a4f9c2e · main</Sub>
           </div>
-          {/* Uptime */}
-          <div className="flex-1 px-5 py-3.5 border-r border-border">
+          <div className="relative px-4 py-4 border-r border-border min-h-[84px]">
             <Label>UPTIME · 30d</Label>
             <Value unit="%">99.987</Value>
             <Sub>12 incidents · 0 user-facing</Sub>
           </div>
-          {/* Cache hit */}
-          <div className="flex-1 px-5 py-3.5">
+          <div className="relative px-4 py-4 min-h-[84px]">
             <Label>CACHE HIT</Label>
             <Value unit="%">{cacheHit}</Value>
             <Sub>CloudFront edge · 247 POPs</Sub>
           </div>
+        </div>
       </div>
 
     </div>

@@ -135,15 +135,15 @@ export function Hero() {
         <div className="flex flex-wrap gap-4">
           <a
             href="#work"
-            className="font-mono text-sm px-5 py-3 rounded-[4px] bg-accent text-bg font-medium transition-opacity duration-150 hover:opacity-90"
+            className="inline-flex items-center gap-1 no-underline font-mono text-sm px-5 py-3 rounded-[4px] bg-accent text-bg font-medium transition-opacity duration-150 hover:opacity-90"
           >
-            View Work <span className="ml-1">→</span>
+            View Work →
           </a>
           <a
             href="#infra"
-            className="font-mono text-sm px-5 py-3 rounded-[4px] border border-accent-line text-accent bg-accent-soft transition-colors duration-150 hover:border-accent hover:bg-[rgba(6,182,212,0.18)]"
+            className="inline-flex items-center gap-1 no-underline font-mono text-sm px-5 py-3 rounded-[4px] border border-accent-line text-accent bg-accent-soft transition-colors duration-150 hover:border-accent hover:bg-[rgba(6,182,212,0.18)]"
           >
-            View Infrastructure <span className="ml-1">↗</span>
+            View Infrastructure ↗
           </a>
         </div>
       </div>

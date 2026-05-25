@@ -1,6 +1,6 @@
-import { Navbar } from "./components/Navbar";
-import { Hero } from "./components/Hero";
-import { SystemHealth } from "./components/SystemHealth";
+import { Navbar } from "./components/navbar";
+import { Hero } from "./components/hero";
+import { SystemHealth } from "./components/system-health";
 
 function App() {
   return (

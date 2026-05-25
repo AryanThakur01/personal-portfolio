@@ -8,26 +8,77 @@ html {
   --color-bg: #0a0a0a;
   --color-bg-card: #111111;
   --color-bg-elev: #1a1a1a;
+  --color-bg-elev-2: #1f1f1f;
   --color-border: #222222;
   --color-border-hover: #333333;
+  --color-border-strong: #2a2a2a;
   --color-text: #ededed;
   --color-text-2: #a1a1a1;
   --color-text-3: #6b6b6b;
+  --color-text-4: #4a4a4a;
   --color-accent: #06b6d4;
   --color-accent-soft: rgba(6, 182, 212, 0.12);
   --color-accent-line: rgba(6, 182, 212, 0.35);
   --color-green: #22c55e;
+  --color-green-soft: rgba(34, 197, 94, 0.15);
+  --color-red: #ef4444;
+  --color-amber: #f59e0b;
+  --color-violet: #a78bfa;
 
   --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
+/* ===== Keyframes ===== */
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
-
+@keyframes caret {
+  50% { opacity: 0; }
+}
 @keyframes pulse-dot {
   0%, 100% { box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.15); }
   50%       { box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.05); }
 }
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.15); }
+  50%       { box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.05); }
+}
+
+/* ===== Shared eyebrow — requires pseudo-element so lives in CSS ===== */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-text-3);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.eyebrow::before {
+  content: "";
+  width: 18px;
+  height: 1px;
+  background: var(--color-text-4);
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* ===== Arch-diagram SVG classes (case studies inline diagrams) ===== */
+.arch-diagram .nodebox { fill: #1a1a1a; stroke: #333333; }
+.arch-diagram .lbl    { font-family: var(--font-mono); fill: #ededed; font-size: 10px; }
+.arch-diagram .sublbl { font-family: var(--font-mono); fill: #6b6b6b; font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; }
+.arch-diagram .edge   { stroke: rgba(6,182,212,0.35); stroke-width: 1; fill: none; }
+
+/* ===== Code block syntax tokens ===== */
+.tk-key { color: #c084fc; }
+.tk-str { color: #7dd3fc; }
+.tk-com { color: #4a4a4a; font-style: italic; }
+.tk-num { color: #fbbf24; }
+.tk-ty  { color: #f472b6; }
+
+/* ===== Terminal scrollbar ===== */
+.terminal-scroll::-webkit-scrollbar { width: 6px; }
+.terminal-scroll::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }

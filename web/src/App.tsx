@@ -1,6 +1,13 @@
-import { Navbar } from "./components/Navbar";
-import { Hero } from "./components/Hero";
-import { SystemHealth } from "./components/SystemHealth";
+import { Navbar } from "./components/navbar";
+import { Hero } from "./components/hero";
+import { SystemHealth } from "./components/system-health";
+import { CapabilityMap } from "./components/capability-map";
+import { ArchitectureGraph } from "./components/arch-graph";
+import { SystemsLab } from "./components/systems-lab";
+import { CaseStudies } from "./components/case-studies";
+import { CICDFeed } from "./components/cicd-feed";
+import { Terminal } from "./components/terminal";
+import { Footer } from "./components/footer";
 
 function App() {
   return (
@@ -9,7 +16,14 @@ function App() {
       <main>
         <Hero />
         <SystemHealth />
+        <CapabilityMap />
+        <ArchitectureGraph />
+        <SystemsLab />
+        <CaseStudies />
+        <CICDFeed />
+        <Terminal />
       </main>
+      <Footer />
     </div>
   );
 }

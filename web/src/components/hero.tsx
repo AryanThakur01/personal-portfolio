@@ -124,26 +124,26 @@ export function Hero() {
         </h1>
 
         {/* Tagline */}
-        <p className="font-sans text-text-2 text-base sm:text-lg leading-relaxed mb-10 max-w-xl">
+        <p className="font-mono text-[16px] text-text-2 tracking-[-0.005em] mb-10 max-w-[720px]">
           Full Stack Engineer.
           <br />
-          <span className="text-text-3 font-mono text-sm">// </span>
+          <span className="text-text-3">// </span>
           Systems over features. Infrastructure-aware. Remote-first.
         </p>
 
         {/* CTAs */}
-        <div className="flex flex-wrap gap-4">
+        <div className="flex flex-wrap gap-3">
           <a
             href="#work"
-            className="inline-flex items-center gap-1 no-underline font-mono text-sm px-5 py-3 rounded-[4px] bg-accent text-bg font-medium transition-opacity duration-150 hover:opacity-90"
+            className="no-underline inline-flex items-center gap-[10px] font-mono text-[12px] tracking-[0.02em] px-[18px] py-[11px] rounded-[4px] bg-accent text-[#001a1f] font-semibold transition-all duration-150 hover:bg-[#22cce7] hover:-translate-y-px"
           >
-            View Work →
+            View Work <span>→</span>
           </a>
           <a
             href="#infra"
-            className="inline-flex items-center gap-1 no-underline font-mono text-sm px-5 py-3 rounded-[4px] border border-accent-line text-accent bg-accent-soft transition-colors duration-150 hover:border-accent hover:bg-[rgba(6,182,212,0.18)]"
+            className="no-underline inline-flex items-center gap-[10px] font-mono text-[12px] tracking-[0.02em] px-[18px] py-[11px] rounded-[4px] border border-border-hover text-text transition-all duration-150 hover:border-accent-line hover:text-accent"
           >
-            View Infrastructure ↗
+            View Infrastructure <span>↗</span>
           </a>
         </div>
       </div>

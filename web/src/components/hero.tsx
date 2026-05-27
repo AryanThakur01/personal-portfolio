@@ -96,18 +96,18 @@ export function Hero() {
             <b className="text-text-2 font-medium">01</b> / IDENTITY
           </span>
           <span>
-            LOC <b className="text-text-2 font-medium">BENGALURU · IST</b>
+            LOC <b className="text-text-2 font-medium">DEHRADUN · IST</b>
           </span>
           <span>
             LOCAL <b className="text-text-2 font-medium">{time}</b>
           </span>
-          <span className="flex items-center gap-2">
-            <span
-              className="w-2 h-2 rounded-full bg-green"
-              style={{ animation: "pulse-dot 2.4s ease-in-out infinite" }}
-            />
-            <b className="text-green font-medium">AVAILABLE FOR REMOTE</b>
-          </span>
+          {/* <span className="flex items-center gap-2"> */}
+          {/*   <span */}
+          {/*     className="w-2 h-2 rounded-full bg-green" */}
+          {/*     style={{ animation: "pulse-dot 2.4s ease-in-out infinite" }} */}
+          {/*   /> */}
+          {/*   <b className="text-green font-medium">AVAILABLE FOR REMOTE</b> */}
+          {/* </span> */}
         </div>
 
         {/* Name */}

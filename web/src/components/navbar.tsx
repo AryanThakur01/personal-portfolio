@@ -73,7 +73,7 @@ export function Navbar() {
               className="hidden md:inline-flex no-underline font-mono text-[12px] text-accent px-3 py-[6px] rounded-[4px] border border-accent-line bg-accent-soft items-center gap-2 transition-colors duration-150 hover:bg-[rgba(6,182,212,0.2)] hover:border-accent"
             >
               <span className="w-[6px] h-[6px] rounded-full bg-accent shadow-[0_0_8px_var(--color-accent)]" />
-              Hire Me
+              Contact Me
             </a>
 
             {/* Mobile hamburger */}
@@ -109,7 +109,7 @@ export function Navbar() {
               className="no-underline inline-flex items-center gap-2 font-mono text-[13px] text-accent px-3 py-4 mt-4 rounded-[4px] border border-accent-line bg-accent-soft hover:bg-[rgba(6,182,212,0.2)] transition-colors"
             >
               <span className="w-[6px] h-[6px] rounded-full bg-accent shadow-[0_0_8px_var(--color-accent)]" />
-              Hire Me
+              Contact Me
             </a>
           </div>
         </div>

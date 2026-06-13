@@ -15,13 +15,13 @@ function App() {
       <Navbar />
       <main>
         <Hero />
-        <SystemHealth />
-        <CapabilityMap />
-        <ArchitectureGraph />
-        <SystemsLab />
-        <CaseStudies />
-        <CICDFeed />
-        <Terminal />
+        {/* <SystemHealth /> */}
+        {/* <CapabilityMap /> */}
+        {/* <ArchitectureGraph /> */}
+        {/* <SystemsLab /> */}
+        {/* <CaseStudies /> */}
+        {/* <CICDFeed /> */}
+        {/* <Terminal /> */}
       </main>
       <Footer />
     </div>

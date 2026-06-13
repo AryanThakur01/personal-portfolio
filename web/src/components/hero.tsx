@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 
-function useUTCClock() {
+function useISTClock() {
   const [time, setTime] = useState("");
 
   useEffect(() => {
     function tick() {
       const now = new Date();
-      const h = String(now.getUTCHours()).padStart(2, "0");
-      const m = String(now.getUTCMinutes()).padStart(2, "0");
-      const s = String(now.getUTCSeconds()).padStart(2, "0");
-      setTime(`${h}:${m}:${s} UTC`);
+      const ist = new Date(now.getTime() + (5 * 60 + 30) * 60 * 1000);
+      const h = String(ist.getUTCHours()).padStart(2, "0");
+      const m = String(ist.getUTCMinutes()).padStart(2, "0");
+      const s = String(ist.getUTCSeconds()).padStart(2, "0");
+      setTime(`${h}:${m}:${s} IST`);
     }
     tick();
     const id = setInterval(tick, 1000);
@@ -79,7 +80,7 @@ function CircuitTraces() {
 }
 
 export function Hero() {
-  const time = useUTCClock();
+  const time = useISTClock();
 
   return (
     <section

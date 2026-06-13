@@ -19,7 +19,7 @@ export function Footer() {
               {[
                 { label: "✉ thakuraryan942@gmail.com", href: "mailto:thakuraryan942@gmail.com" },
                 { label: "↗ github.com/AryanThakur01",   href: "https://github.com/AryanThakur01" },
-                { label: "↗ linkedin.com/in/aryanthakur01", href: "https://linkedin.com/in/aryanthakur01" },
+                { label: "↗ linkedin.com/in/aryanthakur010", href: "https://linkedin.com/in/aryanthakur010" },
                 { label: "↗ /resume.pdf",               href: "#" },
               ].map(({ label, href }) => (
                 <a

@@ -129,9 +129,9 @@ export function SystemHealth() {
     'relative min-h-[84px] py-[18px] px-[22px] border-r border-border';
 
   const environment = import.meta.env.VITE_DEPLOY_ENV ?? '---';
-  const gitSha = import.meta.env.VITE_GIT_SHA ?? '---';
+  const gitSha = import.meta.env.VITE_GIT_SHA?.slice(0, 7) ?? '---';
   const fetchRegion = CLOUDFRONT_REGION;
-  const deploymentAndEnvStats = `${environment} · ${fetchRegion} · ${gitSha.slice(0, 7)}`;
+  const deploymentAndEnvStats = `${environment} · ${fetchRegion} · ${gitSha}`;
   const lastDeploy = `${gitSha} · ${environment}`;
 
   return (

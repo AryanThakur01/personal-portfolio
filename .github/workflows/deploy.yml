@@ -17,6 +17,8 @@ env:
   AWS_REGION: ap-south-1
   S3_BUCKET: portfolio-aryan-prod-980989823308-ap-south-1
   ROLE_ARN: arn:aws:iam::980989823308:role/github-deploy-portfolio 
+  VITE_GIT_SHA: ${{ github.sha }}
+  VITE_DEPLOY_ENV: prod
 
 jobs:
   deploy:

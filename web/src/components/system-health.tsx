@@ -1,4 +1,6 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Tooltip } from './tooltip';
+import { CLOUDFRONT_REGION } from '../utils';
 
 // --- helpers ---
 
@@ -42,7 +44,7 @@ function Sparkline({ data }: { data: number[] }) {
       const y = H - ((v - min) / range) * (H - 2);
       return `${x.toFixed(1)},${y.toFixed(1)}`;
     })
-    .join(" ");
+    .join(' ');
 
   return (
     <svg
@@ -50,8 +52,7 @@ function Sparkline({ data }: { data: number[] }) {
       preserveAspectRatio="none"
       className="absolute bottom-0 left-0 right-0 w-full opacity-55"
       style={{ height: H }}
-      aria-hidden="true"
-    >
+      aria-hidden="true">
       <polyline points={pts} fill="none" stroke="#06b6d4" strokeWidth="1.2" />
     </svg>
   );
@@ -78,7 +79,9 @@ function Value({
   return (
     <div className="font-mono text-[18px] text-text tracking-[-0.01em] flex items-baseline gap-1.5">
       {children}
-      {unit && <span className="text-[11px] text-text-3 font-normal">{unit}</span>}
+      {unit && (
+        <span className="text-[11px] text-text-3 font-normal">{unit}</span>
+      )}
     </div>
   );
 }
@@ -91,7 +94,8 @@ function Sub({
   accent?: boolean;
 }) {
   return (
-    <div className={`font-mono text-[11px] ${accent ? "text-accent" : "text-text-3"}`}>
+    <div
+      className={`font-mono text-[11px] ${accent ? 'text-accent' : 'text-text-3'}`}>
       {children}
     </div>
   );
@@ -119,30 +123,59 @@ export function SystemHealth() {
 
   // shared cell class
   const cell =
-    "relative min-h-[84px] py-[18px] px-[22px] border-r border-border";
+    'relative min-h-[84px] py-[18px] px-[22px] border-r border-border';
+
+  const environment = {
+    value: import.meta.env.VITE_DEPLOY_ENV ?? '---',
+    tooltipDescription: `The current deployment environment. This is set at build time and cannot be changed at runtime.`,
+  };
+  const gitSha = {
+    value: import.meta.env.VITE_GIT_SHA ?? '---',
+    tooltipDescription: `The git SHA of the current deployment. This is set at build time and cannot be changed at runtime.`,
+  };
+  const fetchRegion = {
+    value: CLOUDFRONT_REGION,
+    tooltipDescription: `The region from which the server fetched data for this page. This is determined at runtime and may vary between page loads.`,
+  };
+  const DeploymentAndEnvStats = useCallback(
+    () => (
+      <div className="flex gap-0.5">
+        <Tooltip text={environment.tooltipDescription}>
+          <p>{environment.value}</p>
+        </Tooltip>
+        <span>·</span>
+        <Tooltip text={fetchRegion.tooltipDescription}>
+          <p>{fetchRegion.value}</p>
+        </Tooltip>
+        <span>·</span>
+        <Tooltip text={gitSha.tooltipDescription}>
+          <p>{gitSha.value?.slice(0, 7)}</p>
+        </Tooltip>
+      </div>
+    ),
+    [environment, gitSha],
+  );
 
   return (
     <div id="status" className="border-y border-border bg-bg-card">
-
       {/* ── Desktop grid ── */}
       <div
         className="hidden md:grid border-l border-border"
-        style={{ gridTemplateColumns: "240px repeat(4, 1fr)" }}
-      >
+        style={{ gridTemplateColumns: '240px repeat(4, 1fr)' }}>
         {/* Header cell — slightly darker bg */}
         <div className={`${cell} bg-bg flex flex-col justify-center`}>
           <div className="font-mono text-[13px] text-text flex items-center gap-2">
             <span
               className="w-2 h-2 rounded-full bg-green shrink-0"
               style={{
-                boxShadow: "0 0 0 4px rgba(34,197,94,0.15)",
-                animation: "pulse-dot 2.4s infinite",
+                boxShadow: '0 0 0 4px rgba(34,197,94,0.15)',
+                animation: 'pulse-dot 2.4s infinite',
               }}
             />
             aryanthakur.dev — LIVE
           </div>
           <div className="font-mono text-[10px] tracking-[0.1em] uppercase text-text-3 mt-1.5">
-            prod · us-east-1 · v2.14.0
+            <DeploymentAndEnvStats />
           </div>
         </div>
 
@@ -183,12 +216,15 @@ export function SystemHealth() {
           <div className="font-mono text-[13px] text-text flex items-center gap-2">
             <span
               className="w-2 h-2 rounded-full bg-green shrink-0"
-              style={{ boxShadow: "0 0 0 4px rgba(34,197,94,0.15)", animation: "pulse-dot 2.4s infinite" }}
+              style={{
+                boxShadow: '0 0 0 4px rgba(34,197,94,0.15)',
+                animation: 'pulse-dot 2.4s infinite',
+              }}
             />
             aryanthakur.dev — LIVE
           </div>
           <div className="font-mono text-[10px] tracking-[0.1em] uppercase text-text-3">
-            prod · us-east-1 · v2.14.0
+            <DeploymentAndEnvStats />
           </div>
         </div>
         {/* 2×2 metric grid */}
@@ -216,7 +252,6 @@ export function SystemHealth() {
           </div>
         </div>
       </div>
-
     </div>
   );
 }

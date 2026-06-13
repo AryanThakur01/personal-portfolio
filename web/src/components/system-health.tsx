@@ -38,11 +38,18 @@ function usePagePerf() {
   const [fromCache, setFromCache] = useState<boolean | null>(null);
 
   useEffect(() => {
-    const entries = performance.getEntriesByType('navigation');
-    if (!entries.length) return;
-    const nav = entries[0] as PerformanceNavigationTiming;
-    setTtfb(Math.round(nav.responseStart - nav.requestStart));
-    setFromCache(nav.transferSize === 0);
+    const navEntries = performance.getEntriesByType('navigation');
+    if (navEntries.length) {
+      const nav = navEntries[0] as PerformanceNavigationTiming;
+      setTtfb(Math.round(nav.responseStart - nav.requestStart));
+    }
+
+    const resources = performance.getEntriesByType('resource') as PerformanceResourceTiming[];
+    const assets = resources.filter((r) => /\.(js|css)(\?|$)/.test(r.name));
+    if (assets.length) {
+      const cached = assets.filter((r) => r.transferSize === 0).length;
+      setFromCache(cached / assets.length > 0.5);
+    }
   }, []);
 
   return { ttfb, fromCache };

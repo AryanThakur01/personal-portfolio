@@ -97,7 +97,6 @@ function edgePath(a: GraphNode, b: GraphNode) {
 
 function AnimatedFlow({ d }: { d: string }) {
   return (
-    // @ts-expect-error animateMotion is valid SVG
     <circle r="2.5" fill="#06b6d4" opacity="0.9">
       <animateMotion dur="2.2s" repeatCount="indefinite" path={d} />
     </circle>
@@ -293,7 +292,7 @@ export function ArchitectureGraph() {
                     />
                     {/* Accent stripe */}
                     <rect x={0} y={0} width={3} height={n.h} fill={isActive ? "#06b6d4" : n.color} opacity={isActive ? 1 : 0.6} />
-                    <text x={14} y={22} fontFamily="var(--font-mono)" fontSize={9} letterSpacing="0.12em" fill="#6b6b6b" textTransform="uppercase">
+                    <text x={14} y={22} fontFamily="var(--font-mono)" fontSize={9} letterSpacing="0.12em" fill="#6b6b6b" style={{ textTransform: "uppercase" }}>
                       {n.kind}
                     </text>
                     <text x={14} y={42} fontFamily="var(--font-mono)" fontSize={11} letterSpacing="0.02em" fill={isActive ? "#ededed" : "#ededed"}>

@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Tooltip } from './tooltip';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { CLOUDFRONT_REGION } from '../utils';
 
 // --- helpers ---
@@ -125,36 +124,10 @@ export function SystemHealth() {
   const cell =
     'relative min-h-[84px] py-[18px] px-[22px] border-r border-border';
 
-  const environment = {
-    value: import.meta.env.VITE_DEPLOY_ENV ?? '---',
-    tooltipDescription: `The current deployment environment. This is set at build time and cannot be changed at runtime.`,
-  };
-  const gitSha = {
-    value: import.meta.env.VITE_GIT_SHA ?? '---',
-    tooltipDescription: `The git SHA of the current deployment. This is set at build time and cannot be changed at runtime.`,
-  };
-  const fetchRegion = {
-    value: CLOUDFRONT_REGION,
-    tooltipDescription: `The region from which the server fetched data for this page. This is determined at runtime and may vary between page loads.`,
-  };
-  const DeploymentAndEnvStats = useCallback(
-    () => (
-      <div className="flex gap-0.5">
-        <Tooltip text={environment.tooltipDescription}>
-          <p>{environment.value}</p>
-        </Tooltip>
-        <span>·</span>
-        <Tooltip text={fetchRegion.tooltipDescription}>
-          <p>{fetchRegion.value}</p>
-        </Tooltip>
-        <span>·</span>
-        <Tooltip text={gitSha.tooltipDescription}>
-          <p>{gitSha.value?.slice(0, 7)}</p>
-        </Tooltip>
-      </div>
-    ),
-    [environment, gitSha],
-  );
+  const environment = import.meta.env.VITE_DEPLOY_ENV ?? '---';
+  const gitSha = import.meta.env.VITE_GIT_SHA ?? '---';
+  const fetchRegion = CLOUDFRONT_REGION;
+  const deploymentAndEnvStats = `${environment} · ${fetchRegion} · ${gitSha.slice(0, 7)}`;
 
   return (
     <div id="status" className="border-y border-border bg-bg-card">
@@ -175,7 +148,7 @@ export function SystemHealth() {
             aryanthakur.dev — LIVE
           </div>
           <div className="font-mono text-[10px] tracking-[0.1em] uppercase text-text-3 mt-1.5">
-            <DeploymentAndEnvStats />
+            {deploymentAndEnvStats}
           </div>
         </div>
 
@@ -224,7 +197,7 @@ export function SystemHealth() {
             aryanthakur.dev — LIVE
           </div>
           <div className="font-mono text-[10px] tracking-[0.1em] uppercase text-text-3">
-            <DeploymentAndEnvStats />
+            {deploymentAndEnvStats}
           </div>
         </div>
         {/* 2×2 metric grid */}

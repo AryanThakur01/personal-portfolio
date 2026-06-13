@@ -1,24 +1,6 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { CLOUDFRONT_REGION } from '../utils';
+import { useEffect, useMemo, useState } from 'react';
 
 // --- helpers ---
-
-function useTick(ms: number) {
-  const [t, setT] = useState(0);
-  useEffect(() => {
-    const id = setInterval(() => setT((n) => n + 1), ms);
-    return () => clearInterval(id);
-  }, [ms]);
-  return t;
-}
-
-function jitter(base: number, range: number, t: number, seed = 1) {
-  return (
-    base +
-    Math.sin(t * 0.07 * seed + seed) * range * 0.6 +
-    Math.sin(t * 0.31 * seed) * range * 0.4
-  );
-}
 
 function relTime(deltaMs: number) {
   const s = Math.floor(deltaMs / 1000);
@@ -29,32 +11,41 @@ function relTime(deltaMs: number) {
   return `${h}h ${m % 60}m ago`;
 }
 
-// --- sparkline ---
+// --- hooks ---
 
-function Sparkline({ data }: { data: number[] }) {
-  const W = 200,
-    H = 24;
-  const max = Math.max(...data);
-  const min = Math.min(...data);
-  const range = max - min || 1;
-  const pts = data
-    .map((v, i) => {
-      const x = (i / (data.length - 1)) * W;
-      const y = H - ((v - min) / range) * (H - 2);
-      return `${x.toFixed(1)},${y.toFixed(1)}`;
-    })
-    .join(' ');
+function useEdgeInfo() {
+  const [pop, setPop] = useState<string | null>(null);
+  const [latency, setLatency] = useState<number | null>(null);
 
-  return (
-    <svg
-      viewBox={`0 0 ${W} ${H}`}
-      preserveAspectRatio="none"
-      className="absolute bottom-0 left-0 right-0 w-full opacity-55"
-      style={{ height: H }}
-      aria-hidden="true">
-      <polyline points={pts} fill="none" stroke="#06b6d4" strokeWidth="1.2" />
-    </svg>
-  );
+  useEffect(() => {
+    if (import.meta.env.DEV) return;
+    const start = performance.now();
+    fetch('https://d2h4lszp1ffbsn.cloudfront.net/favicon.svg', { cache: 'no-store' })
+      .then((res) => {
+        const ms = Math.round(performance.now() - start);
+        const cfPop = res.headers.get('x-amz-cf-pop');
+        if (cfPop) setPop(cfPop.slice(0, 5));
+        setLatency(ms);
+      })
+      .catch(() => {});
+  }, []);
+
+  return { pop, latency };
+}
+
+function usePagePerf() {
+  const [ttfb, setTtfb] = useState<number | null>(null);
+  const [fromCache, setFromCache] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const entries = performance.getEntriesByType('navigation');
+    if (!entries.length) return;
+    const nav = entries[0] as PerformanceNavigationTiming;
+    setTtfb(Math.round(nav.responseStart - nav.requestStart));
+    setFromCache(nav.transferSize === 0);
+  }, []);
+
+  return { ttfb, fromCache };
 }
 
 // --- shared primitives ---
@@ -67,7 +58,6 @@ function Label({ children }: { children: React.ReactNode }) {
   );
 }
 
-// value + optional unit sit side-by-side on baseline
 function Value({
   children,
   unit,
@@ -100,21 +90,17 @@ function Sub({
   );
 }
 
+function Skeleton({ w, h = 'h-[14px]' }: { w: string; h?: string }) {
+  return (
+    <div className={`${h} ${w} rounded bg-bg-elev animate-pulse`} />
+  );
+}
+
 // --- main component ---
 
 export function SystemHealth() {
-  const t = useTick(1500);
-
-  const history = useRef<number[]>([]);
-  useMemo(() => {
-    history.current = Array.from({ length: 40 }, (_, i) =>
-      jitter(38, 14, t + i, 1),
-    );
-  }, [t]);
-
-  const p50 = Math.round(jitter(38, 6, t, 1));
-  const p95 = Math.round(jitter(96, 18, t, 1.3));
-  const cacheHit = jitter(94.6, 1.4, t, 2.1).toFixed(2);
+  const { pop, latency } = useEdgeInfo();
+  const { ttfb, fromCache } = usePagePerf();
 
   const deployedAt = useMemo(() => {
     const buildTime = import.meta.env.VITE_BUILD_TIME;
@@ -124,15 +110,28 @@ export function SystemHealth() {
   }, []);
   const deployAgo = relTime(Date.now() - deployedAt);
 
-  // shared cell class
+  const environment = import.meta.env.VITE_DEPLOY_ENV ?? 'local';
+  const gitSha = import.meta.env.VITE_GIT_SHA?.slice(0, 7) ?? '---';
+  const deploymentAndEnvStats = `${environment} · ${pop ?? '···'} · ${gitSha}`;
+  const lastDeploy = `${gitSha} · ${environment}`;
+
+  const cacheLabel =
+    fromCache === null ? '---' : fromCache ? 'HIT' : 'MISS';
+  const cacheColor =
+    fromCache === null
+      ? 'text-text'
+      : fromCache
+        ? 'text-green'
+        : 'text-amber';
+  const cacheSub =
+    fromCache === null
+      ? '---'
+      : fromCache
+        ? 'served from edge cache'
+        : 'fetched from origin';
+
   const cell =
     'relative min-h-[84px] py-[18px] px-[22px] border-r border-border';
-
-  const environment = import.meta.env.VITE_DEPLOY_ENV ?? '---';
-  const gitSha = import.meta.env.VITE_GIT_SHA?.slice(0, 7) ?? '---';
-  const fetchRegion = CLOUDFRONT_REGION;
-  const deploymentAndEnvStats = `${environment} · ${fetchRegion} · ${gitSha}`;
-  const lastDeploy = `${gitSha} · ${environment}`;
 
   return (
     <div id="status" className="border-y border-border bg-bg-card">
@@ -140,7 +139,7 @@ export function SystemHealth() {
       <div
         className="hidden md:grid border-l border-border"
         style={{ gridTemplateColumns: '240px repeat(4, 1fr)' }}>
-        {/* Header cell — slightly darker bg */}
+        {/* Header cell */}
         <div className={`${cell} bg-bg flex flex-col justify-center`}>
           <div className="font-mono text-[13px] text-text flex items-center gap-2">
             <span
@@ -157,12 +156,22 @@ export function SystemHealth() {
           </div>
         </div>
 
-        {/* API Latency — sparkline pinned to bottom */}
+        {/* Edge location */}
         <div className={cell}>
-          <Label>API LATENCY</Label>
-          <Value unit="ms p50">{p50}</Value>
-          <Sub>{p95}ms p95</Sub>
-          <Sparkline data={history.current} />
+          <Label>EDGE LOCATION</Label>
+          {pop === null ? (
+            <div className="flex flex-col gap-2 mt-1">
+              <Skeleton w="w-16" h="h-[18px]" />
+              <Skeleton w="w-32" />
+            </div>
+          ) : (
+            <>
+              <Value unit={latency != null ? `${latency}ms` : undefined}>
+                {pop}
+              </Value>
+              <Sub>CloudFront PoP · nearest edge</Sub>
+            </>
+          )}
         </div>
 
         {/* Last Deploy */}
@@ -172,24 +181,25 @@ export function SystemHealth() {
           <Sub accent>{lastDeploy}</Sub>
         </div>
 
-        {/* Uptime */}
+        {/* TTFB */}
         <div className={cell}>
-          <Label>UPTIME · 30d</Label>
-          <Value unit="%">99.987</Value>
-          <Sub>12 incidents · 0 user-facing</Sub>
+          <Label>TTFB</Label>
+          <Value unit={ttfb != null ? 'ms' : undefined}>{ttfb ?? '---'}</Value>
+          <Sub>Time to first byte · this visit</Sub>
         </div>
 
-        {/* Cache hit */}
+        {/* Cache */}
         <div className={cell}>
-          <Label>CACHE HIT</Label>
-          <Value unit="%">{cacheHit}</Value>
-          <Sub>CloudFront edge · 247 POPs</Sub>
+          <Label>CACHE</Label>
+          <Value>
+            <span className={cacheColor}>{cacheLabel}</span>
+          </Value>
+          <Sub>{cacheSub}</Sub>
         </div>
       </div>
 
       {/* ── Mobile grid ── */}
       <div className="md:hidden">
-        {/* Full-width header */}
         <div className="bg-bg px-4 py-3.5 border-b border-border flex flex-col gap-1">
           <div className="font-mono text-[13px] text-text flex items-center gap-2">
             <span
@@ -205,13 +215,22 @@ export function SystemHealth() {
             {deploymentAndEnvStats}
           </div>
         </div>
-        {/* 2×2 metric grid */}
         <div className="grid grid-cols-2">
           <div className="relative px-4 py-4 border-r border-b border-border min-h-[84px]">
-            <Label>API LATENCY</Label>
-            <Value unit="ms p50">{p50}</Value>
-            <Sub>{p95}ms p95</Sub>
-            <Sparkline data={history.current} />
+            <Label>EDGE LOCATION</Label>
+            {pop === null ? (
+              <div className="flex flex-col gap-2 mt-1">
+                <Skeleton w="w-16" h="h-[18px]" />
+                <Skeleton w="w-24" />
+              </div>
+            ) : (
+              <>
+                <Value unit={latency != null ? `${latency}ms` : undefined}>
+                  {pop}
+                </Value>
+                <Sub>CloudFront PoP</Sub>
+              </>
+            )}
           </div>
           <div className="relative px-4 py-4 border-b border-border min-h-[84px]">
             <Label>LAST DEPLOY</Label>
@@ -219,14 +238,16 @@ export function SystemHealth() {
             <Sub accent>{lastDeploy}</Sub>
           </div>
           <div className="relative px-4 py-4 border-r border-border min-h-[84px]">
-            <Label>UPTIME · 30d</Label>
-            <Value unit="%">99.987</Value>
-            <Sub>12 incidents · 0 user-facing</Sub>
+            <Label>TTFB</Label>
+            <Value unit={ttfb != null ? 'ms' : undefined}>{ttfb ?? '---'}</Value>
+            <Sub>Time to first byte</Sub>
           </div>
           <div className="relative px-4 py-4 min-h-[84px]">
-            <Label>CACHE HIT</Label>
-            <Value unit="%">{cacheHit}</Value>
-            <Sub>CloudFront edge · 247 POPs</Sub>
+            <Label>CACHE</Label>
+            <Value>
+              <span className={cacheColor}>{cacheLabel}</span>
+            </Value>
+            <Sub>{cacheSub}</Sub>
           </div>
         </div>
       </div>

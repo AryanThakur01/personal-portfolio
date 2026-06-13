@@ -116,9 +116,13 @@ export function SystemHealth() {
   const p95 = Math.round(jitter(96, 18, t, 1.3));
   const cacheHit = jitter(94.6, 1.4, t, 2.1).toFixed(2);
 
-  // fixed anchor so it ticks up naturally each render
-  const deployedAt = useRef(Date.now() - 1000 * 60 * 27);
-  const deployAgo = relTime(Date.now() - deployedAt.current);
+  const deployedAt = useMemo(() => {
+    const buildTime = import.meta.env.VITE_BUILD_TIME;
+    return buildTime
+      ? new Date(buildTime).getTime()
+      : Date.now() - 1000 * 60 * 27;
+  }, []);
+  const deployAgo = relTime(Date.now() - deployedAt);
 
   // shared cell class
   const cell =
@@ -128,6 +132,7 @@ export function SystemHealth() {
   const gitSha = import.meta.env.VITE_GIT_SHA ?? '---';
   const fetchRegion = CLOUDFRONT_REGION;
   const deploymentAndEnvStats = `${environment} · ${fetchRegion} · ${gitSha.slice(0, 7)}`;
+  const lastDeploy = `${gitSha} · ${environment}`;
 
   return (
     <div id="status" className="border-y border-border bg-bg-card">
@@ -164,7 +169,7 @@ export function SystemHealth() {
         <div className={cell}>
           <Label>LAST DEPLOY</Label>
           <Value>{deployAgo}</Value>
-          <Sub accent>a4f9c2e · main</Sub>
+          <Sub accent>{lastDeploy}</Sub>
         </div>
 
         {/* Uptime */}
@@ -211,7 +216,7 @@ export function SystemHealth() {
           <div className="relative px-4 py-4 border-b border-border min-h-[84px]">
             <Label>LAST DEPLOY</Label>
             <Value>{deployAgo}</Value>
-            <Sub accent>a4f9c2e · main</Sub>
+            <Sub accent>{lastDeploy}</Sub>
           </div>
           <div className="relative px-4 py-4 border-r border-border min-h-[84px]">
             <Label>UPTIME · 30d</Label>

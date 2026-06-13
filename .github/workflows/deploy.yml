@@ -19,6 +19,8 @@ env:
   ROLE_ARN: arn:aws:iam::980989823308:role/github-deploy-portfolio 
   VITE_GIT_SHA: ${{ github.sha }}
   VITE_DEPLOY_ENV: prod
+  VITE_BUILD_TIME: ${{ github.event.head_commit.timestamp }}
+  VITE_BUILD_BRANCH: ${{ github.ref_name }}
 
 jobs:
   deploy:

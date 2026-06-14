@@ -68,7 +68,7 @@ export const NODES: GraphNode[] = [
     h: 56,
     kind: 'PIPELINE',
     label: 'GitHub Actions',
-    desc: 'Trunk-based. Required checks: typecheck, unit, integration, Terraform plan. OIDC to AWS, no long-lived keys.',
+    desc: 'Pushes to prod trigger a build and deploy to S3. OIDC to AWS — no long-lived keys stored as secrets.',
     file: '.github/workflows/deploy.yml',
     color: '#a78bfa',
   },

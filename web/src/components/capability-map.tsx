@@ -1,76 +1,87 @@
 const CAPABILITIES = [
   {
-    n: "01",
-    title: "Infrastructure",
+    n: '00',
+    title: 'Coming Soon',
     items: [
-      "Serverless Lambda pipelines wired through IaC (Terraform + CDK)",
-      "VPC design with private subnets, NAT, and reachability analyzers",
-      "Multi-region failover with Route 53 health-checked weighted routing",
-      "Cost-aware AWS architecture — tagged, budgeted, alarmed",
+      'I’m building out this section with detailed case studies of systems I’ve designed and implemented.',
+      'Each case study will break down the problem space, design tradeoffs, and implementation details of a specific system or project.',
+      'The goal is to move beyond buzzwords and surface the concrete skills and decisions that went into building real-world software.',
     ],
-    demoLabel: "infra-monorepo",
-    href: "#infra",
+    demoLabel: 'Stay tuned',
+    href: '#',
   },
-  {
-    n: "02",
-    title: "Backend Systems",
-    items: [
-      "Idempotent APIs with request-key dedup at the edge",
-      "Postgres tuning — index strategy, partitioning, hot-row mitigation",
-      "Event-driven services on SQS/SNS with poison-pill quarantine",
-      "gRPC + Protobuf for internal service contracts",
-    ],
-    demoLabel: "rate-limiter-svc",
-    href: "#lab",
-  },
-  {
-    n: "03",
-    title: "Frontend Engineering",
-    items: [
-      "React 19 / Next 15 — server components, streaming, partial prerender",
-      "Type-safe end-to-end with tRPC + Zod schemas",
-      "Accessibility — keyboard-first, ARIA, color-contrast budgets",
-      "Animation systems built on shared timeline primitives",
-    ],
-    demoLabel: "design-system",
-    href: "#work",
-  },
-  {
-    n: "04",
-    title: "Distributed Systems",
-    items: [
-      "Consistent hashing for sharded rate-limiters and cache routers",
-      "Saga / outbox patterns for cross-service consistency",
-      "Backpressure-aware queues with adaptive consumer scaling",
-      "Conflict-free replicated data types for offline collab",
-    ],
-    demoLabel: "saga-orchestrator",
-    href: "#lab",
-  },
-  {
-    n: "05",
-    title: "Observability",
-    items: [
-      "OpenTelemetry instrumented across runtime, network, and DB layers",
-      "Structured logs piped to ClickHouse for sub-second analytics",
-      "SLO-driven alerting — burn rate windows, not threshold pings",
-      "Synthetic probes from 6 regions, p99 budgeted",
-    ],
-    demoLabel: "otel-stack",
-    href: "#infra",
-  },
-  {
-    n: "06",
-    title: "Developer Experience",
-    items: [
-      "PR preview environments — ephemeral, branch-scoped, ~90s warm",
-      "Reproducible dev environments via Nix flakes + devcontainers",
-      "Codemods + AST-driven refactors at monorepo scale",
-      "Pre-commit policy as code with conftest + lefthook",
-    ],
-    demoLabel: "ci-templates",
-    href: "#cicd",
-  },
+  // {
+  //   n: "01",
+  //   title: "Infrastructure",
+  //   items: [
+  //     "Serverless Lambda pipelines wired through IaC (Terraform + CDK)",
+  //     "VPC design with private subnets, NAT, and reachability analyzers",
+  //     "Multi-region failover with Route 53 health-checked weighted routing",
+  //     "Cost-aware AWS architecture — tagged, budgeted, alarmed",
+  //   ],
+  //   demoLabel: "infra-monorepo",
+  //   href: "#infra",
+  // },
+  // {
+  //   n: "02",
+  //   title: "Backend Systems",
+  //   items: [
+  //     "Idempotent APIs with request-key dedup at the edge",
+  //     "Postgres tuning — index strategy, partitioning, hot-row mitigation",
+  //     "Event-driven services on SQS/SNS with poison-pill quarantine",
+  //     "gRPC + Protobuf for internal service contracts",
+  //   ],
+  //   demoLabel: "rate-limiter-svc",
+  //   href: "#lab",
+  // },
+  // {
+  //   n: "03",
+  //   title: "Frontend Engineering",
+  //   items: [
+  //     "React 19 / Next 15 — server components, streaming, partial prerender",
+  //     "Type-safe end-to-end with tRPC + Zod schemas",
+  //     "Accessibility — keyboard-first, ARIA, color-contrast budgets",
+  //     "Animation systems built on shared timeline primitives",
+  //   ],
+  //   demoLabel: "design-system",
+  //   href: "#work",
+  // },
+  // {
+  //   n: "04",
+  //   title: "Distributed Systems",
+  //   items: [
+  //     "Consistent hashing for sharded rate-limiters and cache routers",
+  //     "Saga / outbox patterns for cross-service consistency",
+  //     "Backpressure-aware queues with adaptive consumer scaling",
+  //     "Conflict-free replicated data types for offline collab",
+  //   ],
+  //   demoLabel: "saga-orchestrator",
+  //   href: "#lab",
+  // },
+  // {
+  //   n: "05",
+  //   title: "Observability",
+  //   items: [
+  //     "OpenTelemetry instrumented across runtime, network, and DB layers",
+  //     "Structured logs piped to ClickHouse for sub-second analytics",
+  //     "SLO-driven alerting — burn rate windows, not threshold pings",
+  //     "Synthetic probes from 6 regions, p99 budgeted",
+  //   ],
+  //   demoLabel: "otel-stack",
+  //   href: "#infra",
+  // },
+  // {
+  //   n: "06",
+  //   title: "Developer Experience",
+  //   items: [
+  //     "PR preview environments — ephemeral, branch-scoped, ~90s warm",
+  //     "Reproducible dev environments via Nix flakes + devcontainers",
+  //     "Codemods + AST-driven refactors at monorepo scale",
+  //     "Pre-commit policy as code with conftest + lefthook",
+  //   ],
+  //   demoLabel: "ci-templates",
+  //   href: "#cicd",
+  // },
 ];
 
 export function CapabilityMap() {
@@ -85,8 +96,8 @@ export function CapabilityMap() {
             </h2>
           </div>
           <p className="max-w-[420px] text-text-2 text-[14px] m-0 sm:text-right">
-            Skills described as implementation statements — not keywords.
-            Every domain links to a live system that proves it.
+            Skills described as implementation statements — not keywords. Every
+            domain links to a live system that proves it.
           </p>
         </div>
 
@@ -94,8 +105,7 @@ export function CapabilityMap() {
           {CAPABILITIES.map((c) => (
             <div
               key={c.n}
-              className="bg-bg-card p-[28px_24px_22px] flex flex-col min-h-[280px] hover:bg-bg-elev transition-colors duration-200"
-            >
+              className="bg-bg-card p-[28px_24px_22px] flex flex-col min-h-[280px] hover:bg-bg-elev transition-colors duration-200">
               <div className="font-mono text-[10px] tracking-[0.15em] text-text-4 mb-[18px]">
                 {c.n}
               </div>
@@ -104,7 +114,9 @@ export function CapabilityMap() {
               </h3>
               <ul className="m-0 p-0 list-none flex flex-col gap-[10px] flex-1">
                 {c.items.map((item, i) => (
-                  <li key={i} className="flex gap-[10px] text-[13px] text-text-2 leading-[1.45]">
+                  <li
+                    key={i}
+                    className="flex gap-[10px] text-[13px] text-text-2 leading-[1.45]">
                     <span className="font-mono text-accent shrink-0">→</span>
                     {item}
                   </li>
@@ -114,8 +126,7 @@ export function CapabilityMap() {
                 <span>DEMONSTRATED IN</span>
                 <a
                   href={c.href}
-                  className="no-underline text-text-2 inline-flex gap-[6px] items-center hover:text-accent transition-colors duration-150"
-                >
+                  className="no-underline text-text-2 inline-flex gap-[6px] items-center hover:text-accent transition-colors duration-150">
                   {c.demoLabel} <span>↗</span>
                 </a>
               </div>

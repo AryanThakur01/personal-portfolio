@@ -5,7 +5,7 @@ import { SystemHealth } from './components/system-health';
 import { CapabilityMap } from './components/capability-map';
 import { ArchitectureGraph } from './components/arch-graph';
 import { SystemsLab } from './components/systems-lab';
-// import { CaseStudies } from './components/case-studies';
+import { CaseStudies } from './components/case-studies';
 // import { CICDFeed } from './components/cicd-feed';
 // import { Terminal } from './components/terminal';
 import { Footer } from './components/footer';
@@ -21,7 +21,7 @@ function App() {
           <CapabilityMap />
           <ArchitectureGraph />
           <SystemsLab />
-          {/* <CaseStudies /> */}
+          <CaseStudies />
           {/* <CICDFeed /> */}
           {/* <Terminal /> */}
         </main>

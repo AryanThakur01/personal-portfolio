@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@radix-ui/react-tooltip": "^1.2.9",
+    "mermaid": "^11.15.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6"
   },

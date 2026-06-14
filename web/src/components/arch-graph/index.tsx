@@ -5,13 +5,13 @@ import { ArchDrawer } from './arch-drawer';
 
 export function ArchitectureGraph() {
   const [active, setActive] = useState('client');
-
   const nodeById = Object.fromEntries(NODES.map((n) => [n.id, n]));
   const node = nodeById[active];
 
   return (
     <section id="infra" className="border-t border-border py-16 sm:py-24">
       <div className="max-w-[1240px] mx-auto px-[22px] sm:px-8">
+
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-8 mb-10">
           <div>
             <div className="eyebrow">03 / ARCHITECTURE — THIS SITE</div>
@@ -20,21 +20,46 @@ export function ArchitectureGraph() {
             </h2>
           </div>
           <p className="max-w-[420px] text-text-2 text-[14px] m-0">
-            Click any node. The drawer shows the live metrics, what the
-            component does, and the actual Terraform that defines it.
+            Click any node. The drawer shows live metrics, what the component does,
+            and links to the actual infrastructure code.
           </p>
         </div>
 
-        <div className="border border-border bg-bg-card overflow-hidden grid grid-cols-1 md:grid-cols-[1fr_360px]">
-          <GraphPanel
-            nodes={NODES}
-            edges={EDGES}
-            active={active}
-            onSelect={setActive}
-            className="h-[400px] md:h-[540px]"
-          />
+        {/* Desktop: graph + drawer */}
+        <div
+          className="hidden md:grid border border-border bg-bg-card overflow-hidden"
+          style={{ gridTemplateColumns: '1fr 360px', minHeight: 540 }}
+        >
+          <GraphPanel nodes={NODES} edges={EDGES} active={active} onSelect={setActive} />
           <ArchDrawer node={node} />
         </div>
+
+        {/* Mobile: node list + drawer */}
+        <div className="md:hidden border border-border divide-y divide-border">
+          {NODES.map((n) => (
+            <button
+              key={n.id}
+              onClick={() => setActive(n.id)}
+              className={`w-full text-left flex items-start gap-4 px-4 py-3 transition-colors duration-150 ${
+                n.id === active ? 'bg-bg-elev' : 'bg-bg-card hover:bg-bg-elev'
+              }`}
+            >
+              <span className="font-mono text-[10px] tracking-[0.12em] uppercase text-accent shrink-0 mt-0.5 w-[80px]">
+                {n.kind}
+              </span>
+              <div className="min-w-0">
+                <div className="font-mono text-[12px] text-text truncate">{n.label}</div>
+                <div className="font-mono text-[10px] text-text-3 mt-0.5 truncate">
+                  {n.desc.slice(0, 60)}…
+                </div>
+              </div>
+            </button>
+          ))}
+          <div className="p-5">
+            <ArchDrawer node={node} />
+          </div>
+        </div>
+
       </div>
     </section>
   );

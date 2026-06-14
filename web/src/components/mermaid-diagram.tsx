@@ -25,13 +25,21 @@ interface MermaidDiagramProps {
 
 export function MermaidDiagram({ chart, className }: MermaidDiagramProps) {
   const uid = useId().replace(/:/g, '');
+  const renderCount = useRef(0);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!ref.current) return;
-    mermaid.render(`m-${uid}`, chart).then(({ svg }) => {
-      if (ref.current) ref.current.innerHTML = svg;
-    }).catch(() => {});
+    let cancelled = false;
+    const id = `m-${uid}-${++renderCount.current}`;
+
+    mermaid.render(id, chart)
+      .then(({ svg }) => {
+        if (!cancelled && ref.current) ref.current.innerHTML = svg;
+      })
+      .catch(console.error);
+
+    return () => { cancelled = true; };
   }, [chart, uid]);
 
   return <div ref={ref} className={className} />;

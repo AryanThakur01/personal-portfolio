@@ -4,7 +4,7 @@ import { Hero } from './components/hero';
 import { SystemHealth } from './components/system-health';
 import { CapabilityMap } from './components/capability-map';
 import { ArchitectureGraph } from './components/arch-graph';
-// import { SystemsLab } from './components/systems-lab';
+import { SystemsLab } from './components/systems-lab';
 // import { CaseStudies } from './components/case-studies';
 // import { CICDFeed } from './components/cicd-feed';
 // import { Terminal } from './components/terminal';
@@ -20,7 +20,7 @@ function App() {
           <SystemHealth />
           <CapabilityMap />
           <ArchitectureGraph />
-          {/* <SystemsLab /> */}
+          <SystemsLab />
           {/* <CaseStudies /> */}
           {/* <CICDFeed /> */}
           {/* <Terminal /> */}

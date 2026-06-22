@@ -74,10 +74,6 @@ export function SystemsLab() {
               Deployed mini-systems — production-ish.
             </h2>
           </div>
-          <p className="max-w-[420px] text-text-2 text-[14px] m-0">
-            Each card is a real service running somewhere. Live indicator =
-            service is responding to /health right now.
-          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

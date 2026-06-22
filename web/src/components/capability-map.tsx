@@ -95,10 +95,6 @@ export function CapabilityMap() {
               What I can build, end to end.
             </h2>
           </div>
-          <p className="max-w-[420px] text-text-2 text-[14px] m-0 sm:text-right">
-            Skills described as implementation statements — not keywords. Every
-            domain links to a live system that proves it.
-          </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-border border border-border">

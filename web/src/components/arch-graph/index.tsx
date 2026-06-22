@@ -11,7 +11,6 @@ export function ArchitectureGraph() {
   return (
     <section id="infra" className="border-t border-border py-16 sm:py-24">
       <div className="max-w-[1240px] mx-auto px-[22px] sm:px-8">
-
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-8 mb-10">
           <div>
             <div className="eyebrow">03 / ARCHITECTURE — THIS SITE</div>
@@ -19,18 +18,18 @@ export function ArchitectureGraph() {
               What you're looking at, drawn as a graph.
             </h2>
           </div>
-          <p className="max-w-[420px] text-text-2 text-[14px] m-0">
-            Click any node. The drawer shows live metrics, what the component does,
-            and links to the actual infrastructure code.
-          </p>
         </div>
 
         {/* Desktop: graph + drawer */}
         <div
           className="hidden md:grid border border-border bg-bg-card overflow-hidden"
-          style={{ gridTemplateColumns: '1fr 360px', minHeight: 540 }}
-        >
-          <GraphPanel nodes={NODES} edges={EDGES} active={active} onSelect={setActive} />
+          style={{ gridTemplateColumns: '1fr 360px', minHeight: 540 }}>
+          <GraphPanel
+            nodes={NODES}
+            edges={EDGES}
+            active={active}
+            onSelect={setActive}
+          />
           <ArchDrawer node={node} />
         </div>
 
@@ -42,13 +41,14 @@ export function ArchitectureGraph() {
               onClick={() => setActive(n.id)}
               className={`w-full text-left flex items-start gap-4 px-4 py-3 transition-colors duration-150 ${
                 n.id === active ? 'bg-bg-elev' : 'bg-bg-card hover:bg-bg-elev'
-              }`}
-            >
+              }`}>
               <span className="font-mono text-[10px] tracking-[0.12em] uppercase text-accent shrink-0 mt-0.5 w-[80px]">
                 {n.kind}
               </span>
               <div className="min-w-0">
-                <div className="font-mono text-[12px] text-text truncate">{n.label}</div>
+                <div className="font-mono text-[12px] text-text truncate">
+                  {n.label}
+                </div>
                 <div className="font-mono text-[10px] text-text-3 mt-0.5 truncate">
                   {n.desc.slice(0, 60)}…
                 </div>
@@ -59,7 +59,6 @@ export function ArchitectureGraph() {
             <ArchDrawer node={node} />
           </div>
         </div>
-
       </div>
     </section>
   );

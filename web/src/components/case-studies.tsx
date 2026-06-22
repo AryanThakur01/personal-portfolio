@@ -116,10 +116,6 @@ export function CaseStudies() {
               Three things I helped build at scale.
             </h2>
           </div>
-          <p className="max-w-[420px] text-text-2 text-[14px] m-0">
-            Not a timeline. The problem, the architecture, the measurable
-            outcome, and what I'd change if I started today.
-          </p>
         </div>
 
         <div className="flex flex-col gap-6">

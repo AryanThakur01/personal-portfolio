@@ -2,14 +2,14 @@ import { relTime } from '../hooks/use-tick';
 import { useWorkflowRuns, type RunStatus } from '../hooks/use-workflow-runs';
 
 const STATUS_LABEL: Record<RunStatus, string> = {
-  pass:  'PASSED',
-  fail:  'FAILED',
+  pass: 'PASSED',
+  fail: 'FAILED',
   build: 'BUILDING',
 };
 
 const STATUS_COLOR: Record<RunStatus, string> = {
-  pass:  'text-green',
-  fail:  'text-red',
+  pass: 'text-green',
+  fail: 'text-red',
   build: 'text-amber',
 };
 
@@ -17,8 +17,7 @@ function SkeletonRow() {
   return (
     <div
       className="grid items-center px-[18px] py-3 border-b border-border last:border-b-0"
-      style={{ gridTemplateColumns: '100px 1fr 140px 90px 110px' }}
-    >
+      style={{ gridTemplateColumns: '100px 1fr 140px 90px 110px' }}>
       <div className="h-[10px] w-16 rounded bg-bg-elev animate-pulse" />
       <div className="h-[10px] w-64 rounded bg-bg-elev animate-pulse" />
       <div className="h-[10px] w-20 rounded bg-bg-elev animate-pulse" />
@@ -41,9 +40,6 @@ export function CICDFeed() {
               Last eight deploys.
             </h2>
           </div>
-          <p className="max-w-[420px] text-text-2 text-[14px] m-0">
-            Live from GitHub Actions. Every push to prod builds and ships to S3.
-          </p>
         </div>
 
         <div className="border border-border bg-bg-card font-mono text-[12px] overflow-hidden">
@@ -52,7 +48,10 @@ export function CICDFeed() {
             <div className="flex items-center gap-[10px] text-text text-[12px]">
               <span
                 className="w-2 h-2 rounded-full bg-green shrink-0"
-                style={{ boxShadow: '0 0 0 3px rgba(34,197,94,0.15)', animation: 'pulse 2.4s infinite' }}
+                style={{
+                  boxShadow: '0 0 0 3px rgba(34,197,94,0.15)',
+                  animation: 'pulse 2.4s infinite',
+                }}
               />
               AryanThakur01/personal-portfolio · prod
             </div>
@@ -69,7 +68,8 @@ export function CICDFeed() {
           )}
 
           {/* Loading skeletons */}
-          {loading && Array.from({ length: 8 }).map((_, i) => <SkeletonRow key={i} />)}
+          {loading &&
+            Array.from({ length: 8 }).map((_, i) => <SkeletonRow key={i} />)}
 
           {/* Rows */}
           {runs?.map((run, i) => (
@@ -79,14 +79,17 @@ export function CICDFeed() {
               target="_blank"
               rel="noopener noreferrer"
               className="grid items-center px-[18px] py-3 border-b border-border last:border-b-0 hover:bg-bg-elev transition-colors duration-150 cursor-pointer"
-              style={{ gridTemplateColumns: '100px 1fr 140px 90px 110px' }}
-            >
-              <span className={`inline-flex items-center gap-2 tracking-[0.08em] uppercase text-[10px] ${STATUS_COLOR[run.status]}`}>
+              style={{ gridTemplateColumns: '100px 1fr 140px 90px 110px' }}>
+              <span
+                className={`inline-flex items-center gap-2 tracking-[0.08em] uppercase text-[10px] ${STATUS_COLOR[run.status]}`}>
                 <span
                   className="w-2 h-2 rounded-[1px]"
                   style={{
                     background: 'currentColor',
-                    animation: run.status === 'build' ? 'caret 0.9s steps(2) infinite' : undefined,
+                    animation:
+                      run.status === 'build'
+                        ? 'caret 0.9s steps(2) infinite'
+                        : undefined,
                   }}
                 />
                 {STATUS_LABEL[run.status]}
@@ -103,7 +106,9 @@ export function CICDFeed() {
 
               <span className="text-text-3 text-right">{run.dur}</span>
 
-              <span className="text-text-3 text-right">{relTime(run.agoMs)}</span>
+              <span className="text-text-3 text-right">
+                {relTime(run.agoMs)}
+              </span>
             </a>
           ))}
         </div>

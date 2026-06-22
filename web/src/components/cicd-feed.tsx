@@ -1,49 +1,35 @@
-import { useMemo } from "react";
-import { useTick, pad, relTime } from "../hooks/use-tick";
-
-type RunStatus = "pass" | "fail" | "build";
-
-interface Deploy {
-  hash: string;
-  msg: string;
-  branch: string;
-  status: RunStatus;
-  dur: string;
-  ago: number;
-}
-
-const DEPLOYS: Deploy[] = [
-  { hash: "a4f9c2e", msg: "feat(infra): bump lambda memory to 512MB for cold-start win",   branch: "main",       status: "pass",  dur: "2m 11s", ago: 27 * 60 },
-  { hash: "8d12fa1", msg: "fix(api): handle null payer id in adjudication pipeline",       branch: "main",       status: "pass",  dur: "1m 58s", ago: 3 * 3600 + 14 * 60 },
-  { hash: "b7e0934", msg: "chore: rotate Neon credentials, migrate to v2 pooler",          branch: "main",       status: "pass",  dur: "2m 02s", ago: 5 * 3600 },
-  { hash: "f33a17c", msg: "feat(web): live system-health bar above the fold",              branch: "main",       status: "pass",  dur: "2m 24s", ago: 9 * 3600 + 6 * 60 },
-  { hash: "c1029ee", msg: "wip: experiment with bun runtime on adjudicate fn",             branch: "experiment", status: "build", dur: "0m 41s", ago: 11 * 3600 },
-  { hash: "29bc4d0", msg: "fix(ci): pin terraform to 1.7.4 to dodge known regression",    branch: "main",       status: "pass",  dur: "2m 03s", ago: 14 * 3600 },
-  { hash: "5fa72b9", msg: "feat: probe mesh — add fra and gru regions",                   branch: "main",       status: "pass",  dur: "2m 19s", ago: 20 * 3600 },
-  { hash: "16e3ab8", msg: "chore(deps): bump react 19.0.0 -> 19.1.0",                     branch: "deps/react", status: "fail",  dur: "0m 38s", ago: 22 * 3600 },
-];
+import { relTime } from '../hooks/use-tick';
+import { useWorkflowRuns, type RunStatus } from '../hooks/use-workflow-runs';
 
 const STATUS_LABEL: Record<RunStatus, string> = {
-  pass: "PASSED",
-  fail: "FAILED",
-  build: "BUILDING",
+  pass:  'PASSED',
+  fail:  'FAILED',
+  build: 'BUILDING',
 };
+
 const STATUS_COLOR: Record<RunStatus, string> = {
-  pass: "text-green",
-  fail: "text-red",
-  build: "text-amber",
+  pass:  'text-green',
+  fail:  'text-red',
+  build: 'text-amber',
 };
+
+function SkeletonRow() {
+  return (
+    <div
+      className="grid items-center px-[18px] py-3 border-b border-border last:border-b-0"
+      style={{ gridTemplateColumns: '100px 1fr 140px 90px 110px' }}
+    >
+      <div className="h-[10px] w-16 rounded bg-bg-elev animate-pulse" />
+      <div className="h-[10px] w-64 rounded bg-bg-elev animate-pulse" />
+      <div className="h-[10px] w-20 rounded bg-bg-elev animate-pulse" />
+      <div className="h-[10px] w-12 rounded bg-bg-elev animate-pulse ml-auto" />
+      <div className="h-[10px] w-16 rounded bg-bg-elev animate-pulse ml-auto" />
+    </div>
+  );
+}
 
 export function CICDFeed() {
-  const t = useTick(2000);
-
-  const list = useMemo(() => {
-    return DEPLOYS.map((d) => {
-      if (d.status !== "build") return d;
-      const secs = 41 + t;
-      return { ...d, dur: `${Math.floor(secs / 60)}m ${pad(secs % 60)}s` };
-    });
-  }, [t]);
+  const { runs, loading, error } = useWorkflowRuns();
 
   return (
     <section id="cicd" className="border-t border-border py-16 sm:py-24">
@@ -56,7 +42,7 @@ export function CICDFeed() {
             </h2>
           </div>
           <p className="max-w-[420px] text-text-2 text-[14px] m-0">
-            Pulled live from GitHub Actions. Every push to main runs typecheck, unit, integration, terraform plan, then ships.
+            Live from GitHub Actions. Every push to prod builds and ships to S3.
           </p>
         </div>
 
@@ -66,51 +52,59 @@ export function CICDFeed() {
             <div className="flex items-center gap-[10px] text-text text-[12px]">
               <span
                 className="w-2 h-2 rounded-full bg-green shrink-0"
-                style={{ boxShadow: "0 0 0 3px rgba(34,197,94,0.15)", animation: "pulse 2.4s infinite" }}
+                style={{ boxShadow: '0 0 0 3px rgba(34,197,94,0.15)', animation: 'pulse 2.4s infinite' }}
               />
-              aryanthakur/portfolio · production
+              AryanThakur01/personal-portfolio · prod
             </div>
             <div className="text-[10px] text-text-3 tracking-[0.1em] uppercase">
-              12 deploys this week · MTTR 9m
+              GitHub Actions
             </div>
           </div>
 
+          {/* Error */}
+          {error && (
+            <div className="px-[18px] py-6 text-[12px] text-text-3 text-center">
+              {error}
+            </div>
+          )}
+
+          {/* Loading skeletons */}
+          {loading && Array.from({ length: 8 }).map((_, i) => <SkeletonRow key={i} />)}
+
           {/* Rows */}
-          {list.map((d, i) => (
-            <div
+          {runs?.map((run, i) => (
+            <a
               key={i}
-              className="grid items-center px-[18px] py-3 border-b border-border last:border-b-0 hover:bg-bg-elev transition-colors duration-150"
-              style={{ gridTemplateColumns: "100px 1fr 140px 90px 110px" }}
+              href={`https://github.com/AryanThakur01/personal-portfolio/actions/runs/${run.id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="grid items-center px-[18px] py-3 border-b border-border last:border-b-0 hover:bg-bg-elev transition-colors duration-150 cursor-pointer"
+              style={{ gridTemplateColumns: '100px 1fr 140px 90px 110px' }}
             >
-              {/* Status */}
-              <span className={`inline-flex items-center gap-2 tracking-[0.08em] uppercase text-[10px] ${STATUS_COLOR[d.status]}`}>
+              <span className={`inline-flex items-center gap-2 tracking-[0.08em] uppercase text-[10px] ${STATUS_COLOR[run.status]}`}>
                 <span
                   className="w-2 h-2 rounded-[1px]"
                   style={{
-                    background: "currentColor",
-                    animation: d.status === "build" ? "caret 0.9s steps(2) infinite" : undefined,
+                    background: 'currentColor',
+                    animation: run.status === 'build' ? 'caret 0.9s steps(2) infinite' : undefined,
                   }}
                 />
-                {STATUS_LABEL[d.status]}
+                {STATUS_LABEL[run.status]}
               </span>
 
-              {/* Message */}
               <span className="flex items-center gap-[10px] text-text min-w-0">
-                <span className="text-accent shrink-0">{d.hash}</span>
-                <span className="truncate text-text">{d.msg}</span>
+                <span className="text-accent shrink-0">{run.hash}</span>
+                <span className="truncate text-text">{run.msg}</span>
               </span>
 
-              {/* Branch */}
               <span className="text-text-3 before:content-['⎇_'] before:text-text-4">
-                {d.branch}
+                {run.branch}
               </span>
 
-              {/* Duration */}
-              <span className="text-text-3 text-right">{d.dur}</span>
+              <span className="text-text-3 text-right">{run.dur}</span>
 
-              {/* Timestamp */}
-              <span className="text-text-3 text-right">{relTime(d.ago * 1000)}</span>
-            </div>
+              <span className="text-text-3 text-right">{relTime(run.agoMs)}</span>
+            </a>
           ))}
         </div>
       </div>

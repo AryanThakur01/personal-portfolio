@@ -57,7 +57,7 @@ export function Footer() {
                   label: '↗ linkedin.com/in/aryanthakur010',
                   href: 'https://linkedin.com/in/aryanthakur010',
                 },
-                { label: '↗ /resume.pdf', href: '#' },
+                { label: '↗ /resume.pdf', href: '/resume.pdf' },
               ].map(({ label, href }) => (
                 <a
                   key={label}

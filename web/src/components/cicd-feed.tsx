@@ -1,6 +1,7 @@
 import { relTime } from '../hooks/use-tick';
 import { useWorkflowRuns, type RunStatus } from '../hooks/use-workflow-runs';
 import { SectionHeader } from './ui/section-header';
+import { sectionEyebrow } from '../data/sections';
 
 const STATUS_LABEL: Record<RunStatus, string> = {
   pass: 'PASSED',
@@ -38,7 +39,7 @@ export function CICDFeed() {
   return (
     <section id="cicd" className="border-t border-border py-16 sm:py-24">
       <div className="max-w-[1240px] mx-auto px-[22px] sm:px-8">
-        <SectionHeader eyebrow="07 / CI/CD FEED" title="Last eight deploys." />
+        <SectionHeader eyebrow={sectionEyebrow('cicd')} title="Last eight deploys." />
 
         <div className="border border-border bg-bg-card font-mono text-[12px] overflow-hidden">
           {/* Header */}

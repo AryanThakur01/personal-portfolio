@@ -3,6 +3,7 @@ import { NODES, EDGES } from './data';
 import { GraphPanel } from './graph-panel';
 import { ArchDrawer } from './arch-drawer';
 import { SectionHeader } from '../ui/section-header';
+import { sectionEyebrow } from '../../data/sections';
 
 export function ArchitectureGraph() {
   const [active, setActive] = useState('client');
@@ -12,7 +13,7 @@ export function ArchitectureGraph() {
   return (
     <section id="infra" className="border-t border-border py-16 sm:py-24">
       <div className="max-w-[1240px] mx-auto px-[22px] sm:px-8">
-        <SectionHeader eyebrow="04 / ARCHITECTURE — THIS SITE" title="What you're looking at, drawn as a graph." />
+        <SectionHeader eyebrow={sectionEyebrow('arch')} title="What you're looking at, drawn as a graph." />
 
         {/* Graph + drawer — stacked on mobile, side-by-side on desktop */}
         <div className="border border-border bg-bg-card overflow-hidden flex flex-col md:grid"

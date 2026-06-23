@@ -1,0 +1,1 @@
+FE can fetch this file to see the cache status on edge.

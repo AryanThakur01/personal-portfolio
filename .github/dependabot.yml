@@ -16,16 +16,6 @@ updates:
       - dependency-name: "*"
         update-types: ["version-update:semver-patch"]  # skip patch-only PRs
 
-  # Python
-  - package-ecosystem: pip
-    directory: "/"
-    schedule:
-      interval: weekly
-      day: monday
-    labels:
-      - dependencies
-      - chore
-
   # GitHub Actions themselves
   - package-ecosystem: github-actions
     directory: "/"

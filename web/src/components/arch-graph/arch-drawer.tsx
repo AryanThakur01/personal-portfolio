@@ -25,13 +25,14 @@ function MetricCell({ label, value }: { label: string; value: string }) {
 
 interface ArchDrawerProps {
   node: GraphNode;
+  className?: string;
 }
 
-export function ArchDrawer({ node }: ArchDrawerProps) {
+export function ArchDrawer({ node, className = '' }: ArchDrawerProps) {
   const { metrics, loading } = useNodeMetrics(node.id);
 
   return (
-    <div className="border-l border-border bg-bg-card p-[28px_26px] flex flex-col gap-[18px] overflow-y-auto max-h-[540px]">
+    <div className={`bg-bg-card p-[28px_26px] flex flex-col gap-[18px] overflow-y-auto ${className}`}>
       <div className="flex items-center justify-between">
         <h4 className="m-0 font-mono font-medium text-[15px] text-text">{node.label}</h4>
         <span className="font-mono text-[10px] tracking-[0.12em] uppercase text-text-3 border border-border-hover px-2 py-[3px] rounded-[3px]">

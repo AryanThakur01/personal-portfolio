@@ -33,9 +33,10 @@ function App() {
       <div className="min-h-screen bg-bg text-text font-sans">
         <Navbar />
         <main>
-          {/* SystemHealth is a live-status strip, not a numbered section */}
+          <Hero />
+          {/* SystemHealth is a live-status strip, always anchored below Hero */}
           <SystemHealth />
-          {SECTIONS.map(({ id }) => {
+          {SECTIONS.filter(({ id }) => id !== 'hero').map(({ id }) => {
             const Section = SECTION_COMPONENTS[id];
             return <Section key={id} />;
           })}

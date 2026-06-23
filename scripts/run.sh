@@ -4,4 +4,5 @@
 cd "$(dirname "$0")"
 cd ../web
 
+pnpm install
 pnpm run dev

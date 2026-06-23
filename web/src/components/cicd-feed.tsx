@@ -35,7 +35,7 @@ export function CICDFeed() {
       <div className="max-w-[1240px] mx-auto px-[22px] sm:px-8">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-8 mb-10">
           <div>
-            <div className="eyebrow">06 / CI/CD FEED</div>
+            <div className="eyebrow">07 / CI/CD FEED</div>
             <h2 className="font-mono font-medium text-[26px] tracking-[-0.01em] mt-3 mb-0 text-text">
               Last eight deploys.
             </h2>

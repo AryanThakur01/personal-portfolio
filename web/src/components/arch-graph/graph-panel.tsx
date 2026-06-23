@@ -143,8 +143,7 @@ export function GraphPanel({
       <svg
         viewBox="0 0 730 430"
         preserveAspectRatio="xMidYMid meet"
-        className="block w-full"
-        style={{ minHeight: 540 }}>
+        className="block w-full">
         <defs>
           <marker
             id="arrow"

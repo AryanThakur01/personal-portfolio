@@ -39,10 +39,6 @@ export function Footer() {
               <br />
               <span className="text-accent">that survives prod.</span>
             </h2>
-            <p className="font-mono text-[13px] text-text-3 m-0 mb-6">
-              // Available for senior / staff full-stack and platform roles.
-              Remote, EU/US overlap.
-            </p>
             <div className="flex flex-wrap gap-2">
               {[
                 {
@@ -74,9 +70,6 @@ export function Footer() {
           {/* Right: build meta */}
           <div className="font-mono text-[10px] tracking-[0.12em] uppercase text-text-3 flex flex-col gap-1 lg:text-right lg:items-end">
             <span>
-              BUILD <b className="text-text-2 font-medium">v2.14.0</b>
-            </span>
-            <span>
               COMMIT <span className="text-accent">{gitSha}</span>
             </span>
             <span>
@@ -94,9 +87,15 @@ export function Footer() {
         {/* Bottom */}
         <div className="mt-12 pt-5 border-t border-border flex flex-col sm:flex-row justify-between gap-2 font-mono text-[10px] tracking-[0.12em] uppercase text-text-4">
           <span>
-            © {year} Aryan Thakur · This site is open source — view the repo
+            © {year} Aryan Thakur · This site is open source —
+            <a
+              href="https://github.com/AryanThakur01/personal-portfolio"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-accent hover:underline ml-2">
+              view the repo
+            </a>
           </span>
-          <span>Designed &amp; built · 0 trackers · 0 cookies</span>
         </div>
       </div>
     </footer>

@@ -111,7 +111,7 @@ export function CaseStudies() {
       <div className="max-w-[1240px] mx-auto px-[22px] sm:px-8">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-8 mb-10">
           <div>
-            <div className="eyebrow">05 / CASE STUDIES</div>
+            <div className="eyebrow">06 / CASE STUDIES</div>
             <h2 className="font-mono font-medium text-[26px] tracking-[-0.01em] mt-3 mb-0 text-text">
               Three things I helped build at scale.
             </h2>

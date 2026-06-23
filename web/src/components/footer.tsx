@@ -6,7 +6,6 @@ import { buttonVariants } from './ui/button';
 export function Footer() {
   const { pop, loading: edgeLoading, isLocal } = useEdgeInfo();
   const year = new Date().getFullYear();
-  const edgeValue = isLocal ? 'LOCAL' : (pop ?? '-');
   const popSegment = isLocal ? (
     'local'
   ) : edgeLoading ? (
@@ -81,10 +80,7 @@ export function Footer() {
               DEPLOYED <b className="text-text-2 font-medium">{deployAgo}</b>
             </span>
             <span>
-              REGION{' '}
-              <b className="text-text-2 font-medium">
-                {popSegment} · {edgeValue}
-              </b>
+              REGION <b className="text-text-2 font-medium">{popSegment}</b>
             </span>
           </div>
         </div>

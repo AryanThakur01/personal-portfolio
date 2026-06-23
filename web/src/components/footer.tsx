@@ -31,7 +31,7 @@ export function Footer() {
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-10 items-end">
           {/* Left */}
           <div>
-            <div className="eyebrow mb-4">08 / CONTACT</div>
+            <div className="eyebrow mb-4">07 / CONTACT</div>
             <h2
               className="font-mono font-medium text-text m-0 mb-[14px]"
               style={{ fontSize: 40, letterSpacing: '-0.02em' }}>
@@ -87,7 +87,14 @@ export function Footer() {
         {/* Bottom */}
         <div className="mt-12 pt-5 border-t border-border flex flex-col sm:flex-row justify-between gap-2 font-mono text-[10px] tracking-[0.12em] uppercase text-text-4">
           <span>
-            © {year} Aryan Thakur · This site is open source — view the repo
+            © {year} Aryan Thakur · This site is open source —
+            <a
+              href="https://github.com/AryanThakur01/personal-portfolio"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-accent hover:underline ml-2">
+              view the repo
+            </a>
           </span>
           <span>Designed &amp; built · 0 trackers · 0 cookies</span>
         </div>

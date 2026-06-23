@@ -58,17 +58,8 @@ node >= 22.21.1
 git clone git@github.com:AryanThakur01/personal-portfolio.git
 cd personal-portfolio
 
-# 2. Copy environment variables
-cp web/.env.example web/.env
-
-# 3. Install dependencies
-pnpm install
-
-# 4. Run setup script
-bash scripts/setup.sh
-
-# 5. Start development server
-pnpm run dev
+# 2. Setup the project (githooks, pnpm install, etc.)
+./scripts/setup.sh
 ```
 
 ---

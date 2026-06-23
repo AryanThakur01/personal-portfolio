@@ -2,14 +2,30 @@ import { TooltipProvider } from './components/tooltip';
 import { Navbar } from './components/navbar';
 import { Hero } from './components/hero';
 import { SystemHealth } from './components/system-health';
-import { CapabilityMap } from './components/capability-map';
-import { ArchitectureGraph } from './components/arch-graph';
-import { SystemsLab } from './components/systems-lab';
-import { CaseStudies } from './components/case-studies';
-import { CICDFeed } from './components/cicd-feed';
 import { Whoami } from './components/whoami';
-// import { Terminal } from './components/terminal';
+// import { CapabilityMap } from './components/capability-map';
+import { ArchitectureGraph } from './components/arch-graph';
+// import { SystemsLab } from './components/systems-lab';
+// import { CaseStudies } from './components/case-studies';
+import { Experience } from './components/experience';
+import { CICDFeed } from './components/cicd-feed';
 import { Footer } from './components/footer';
+import { SECTIONS, type SectionId } from './data/sections';
+
+/**
+ * Maps section ids to their components.
+ * Reorder sections by editing src/data/sections.ts — numbers update everywhere automatically.
+ */
+const SECTION_COMPONENTS: Record<SectionId, React.ComponentType> = {
+  hero: Hero,
+  whoami: Whoami,
+  // stack:      CapabilityMap,
+  arch: ArchitectureGraph,
+  // lab:        SystemsLab,
+  // work:       CaseStudies,
+  experience: Experience,
+  cicd: CICDFeed,
+};
 
 function App() {
   return (
@@ -18,14 +34,12 @@ function App() {
         <Navbar />
         <main>
           <Hero />
+          {/* SystemHealth is a live-status strip, always anchored below Hero */}
           <SystemHealth />
-          <Whoami />
-          <CapabilityMap />
-          <ArchitectureGraph />
-          <SystemsLab />
-          <CaseStudies />
-          <CICDFeed />
-          {/* <Terminal /> */}
+          {SECTIONS.filter(({ id }) => id !== 'hero').map(({ id }) => {
+            const Section = SECTION_COMPONENTS[id];
+            return <Section key={id} />;
+          })}
         </main>
         <Footer />
       </div>

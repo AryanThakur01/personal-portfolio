@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useISTClock } from '../hooks/use-ist-clock';
 import { useTick } from '../hooks/use-tick';
 import { SectionHeader } from './ui/section-header';
+import { sectionEyebrow } from '../data/sections';
 
 const START_DATE = new Date('2023-06-01T00:00:00Z').getTime();
 const TAGS = ['SYSTEMS', 'INFRA', 'DISTRIBUTED', 'DX'];
@@ -155,7 +156,7 @@ export function Whoami() {
     <section id="whoami" className="border-t border-border py-16 sm:py-24">
       {lightboxOpen && <Lightbox onClose={() => setLightboxOpen(false)} />}
       <div className="max-w-[1240px] mx-auto px-[22px] sm:px-8">
-        <SectionHeader eyebrow="02 / WHOAMI" title="The human behind the system." />
+        <SectionHeader eyebrow={sectionEyebrow('whoami')} title="The human behind the system." />
 
         {/* Main card */}
         <div

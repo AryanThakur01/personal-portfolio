@@ -1,5 +1,6 @@
 import { useISTClock } from "../hooks/use-ist-clock";
 import { buttonVariants } from "./ui/button";
+import { sectionNum } from "../data/sections";
 
 function GridBackground() {
   return (
@@ -75,7 +76,7 @@ export function Hero() {
         {/* Meta row */}
         <div className="flex flex-wrap gap-x-7 gap-y-2 mb-8 font-mono text-[11px] tracking-widest uppercase text-text-3">
           <span>
-            <b className="text-text-2 font-medium">01</b> / IDENTITY
+            <b className="text-text-2 font-medium">{sectionNum('hero')}</b> / IDENTITY
           </span>
           <span>
             LOC <b className="text-text-2 font-medium">DEHRADUN · IST</b>

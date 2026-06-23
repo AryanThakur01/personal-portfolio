@@ -12,7 +12,7 @@ export const LAB: LabProject[] = [
   {
     name: 'Coming soon',
     problem:
-      'I'm building out the first few cards now. Follow along on Twitter for updates, or reach out if you have a mini-system you think would be a good fit for the lab!',
+      "I'm building out the first few cards now. Follow along on Twitter for updates, or reach out if you have a mini-system you think would be a good fit for the lab!",
     pattern: {
       b: 'Under Planning',
       rest: ' - stay tuned for the first few cards to go live in the next couple months.',

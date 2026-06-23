@@ -6,6 +6,7 @@ import { CapabilityMap } from './components/capability-map';
 import { ArchitectureGraph } from './components/arch-graph';
 import { SystemsLab } from './components/systems-lab';
 import { CaseStudies } from './components/case-studies';
+import { Experience } from './components/experience';
 import { CICDFeed } from './components/cicd-feed';
 import { Whoami } from './components/whoami';
 // import { Terminal } from './components/terminal';
@@ -24,6 +25,7 @@ function App() {
           <ArchitectureGraph />
           <SystemsLab />
           <CaseStudies />
+          <Experience />
           <CICDFeed />
           {/* <Terminal /> */}
         </main>

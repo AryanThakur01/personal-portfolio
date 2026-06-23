@@ -6,7 +6,10 @@ export function CapabilityMap() {
   return (
     <section id="stack" className="border-t border-border py-16 sm:py-24">
       <div className="max-w-[1240px] mx-auto px-[22px] sm:px-8">
-        <SectionHeader eyebrow={sectionEyebrow('stack')} title="What I can build, end to end." />
+        <SectionHeader
+          eyebrow={sectionEyebrow('stack')}
+          title="What I can build, end to end."
+        />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-border border border-border">
           {CAPABILITIES.map((c) => (
@@ -21,7 +24,9 @@ export function CapabilityMap() {
               </h3>
               <ul className="m-0 p-0 list-none flex flex-col gap-[10px] flex-1">
                 {c.items.map((item, i) => (
-                  <li key={i} className="flex gap-[10px] text-[13px] text-text-2 leading-[1.45]">
+                  <li
+                    key={i}
+                    className="flex gap-[10px] text-[13px] text-text-2 leading-[1.45]">
                     <span className="font-mono text-accent shrink-0">→</span>
                     {item}
                   </li>

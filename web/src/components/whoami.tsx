@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useISTClock } from '../hooks/use-ist-clock';
 import { useTick } from '../hooks/use-tick';
+import { SectionHeader } from './ui/section-header';
 
 const START_DATE = new Date('2023-06-01T00:00:00Z').getTime();
 const TAGS = ['SYSTEMS', 'INFRA', 'DISTRIBUTED', 'DX'];
@@ -154,20 +155,7 @@ export function Whoami() {
     <section id="whoami" className="border-t border-border py-16 sm:py-24">
       {lightboxOpen && <Lightbox onClose={() => setLightboxOpen(false)} />}
       <div className="max-w-[1240px] mx-auto px-[22px] sm:px-8">
-        {/* Section header */}
-        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-5 mb-10">
-          <div>
-            <div className="eyebrow mb-4">02 / WHOAMI</div>
-            <h2
-              className="font-mono font-medium text-text m-0"
-              style={{
-                fontSize: 'clamp(26px, 3.5vw, 40px)',
-                letterSpacing: '-0.02em',
-              }}>
-              The human behind the system.
-            </h2>
-          </div>
-        </div>
+        <SectionHeader eyebrow="02 / WHOAMI" title="The human behind the system." />
 
         {/* Main card */}
         <div

@@ -7,6 +7,7 @@ import { ArchitectureGraph } from './components/arch-graph';
 import { SystemsLab } from './components/systems-lab';
 import { CaseStudies } from './components/case-studies';
 import { CICDFeed } from './components/cicd-feed';
+import { Whoami } from './components/whoami';
 // import { Terminal } from './components/terminal';
 import { Footer } from './components/footer';
 
@@ -18,6 +19,7 @@ function App() {
         <main>
           <Hero />
           <SystemHealth />
+          <Whoami />
           <CapabilityMap />
           <ArchitectureGraph />
           <SystemsLab />

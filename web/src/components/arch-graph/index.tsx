@@ -13,7 +13,7 @@ export function ArchitectureGraph() {
       <div className="max-w-[1240px] mx-auto px-[22px] sm:px-8">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-8 mb-10">
           <div>
-            <div className="eyebrow">03 / ARCHITECTURE — THIS SITE</div>
+            <div className="eyebrow">04 / ARCHITECTURE — THIS SITE</div>
             <h2 className="font-mono font-medium text-[26px] tracking-[-0.01em] mt-3 mb-0 text-text">
               What you're looking at, drawn as a graph.
             </h2>

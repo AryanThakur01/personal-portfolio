@@ -10,7 +10,7 @@ export const Logo = (props: ILogoProps) => {
       height="64"
       viewBox="0 0 64 64"
       fill="none"
-      shape-rendering="geometricPrecision"
+      shapeRendering="geometricPrecision"
       {...props}>
       <rect width="64" height="64" rx="12" fill="#06b6d4" />
       <rect x="16" y="16" width="13" height="13" fill="#0a0a0a" />

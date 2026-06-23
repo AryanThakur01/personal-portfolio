@@ -3,10 +3,10 @@ import { Navbar } from './components/navbar';
 import { Hero } from './components/hero';
 import { SystemHealth } from './components/system-health';
 import { Whoami } from './components/whoami';
-import { CapabilityMap } from './components/capability-map';
+// import { CapabilityMap } from './components/capability-map';
 import { ArchitectureGraph } from './components/arch-graph';
-import { SystemsLab } from './components/systems-lab';
-import { CaseStudies } from './components/case-studies';
+// import { SystemsLab } from './components/systems-lab';
+// import { CaseStudies } from './components/case-studies';
 import { Experience } from './components/experience';
 import { CICDFeed } from './components/cicd-feed';
 import { Footer } from './components/footer';
@@ -17,14 +17,14 @@ import { SECTIONS, type SectionId } from './data/sections';
  * Reorder sections by editing src/data/sections.ts — numbers update everywhere automatically.
  */
 const SECTION_COMPONENTS: Record<SectionId, React.ComponentType> = {
-  hero:       Hero,
-  whoami:     Whoami,
-  stack:      CapabilityMap,
-  arch:       ArchitectureGraph,
-  lab:        SystemsLab,
-  work:       CaseStudies,
+  hero: Hero,
+  whoami: Whoami,
+  // stack:      CapabilityMap,
+  arch: ArchitectureGraph,
+  // lab:        SystemsLab,
+  // work:       CaseStudies,
   experience: Experience,
-  cicd:       CICDFeed,
+  cicd: CICDFeed,
 };
 
 function App() {

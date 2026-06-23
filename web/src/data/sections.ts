@@ -4,14 +4,14 @@
  * App.tsx maps over this to render sections in order.
  */
 export const SECTIONS = [
-  { id: 'hero',       label: 'IDENTITY'       },
-  { id: 'whoami',     label: 'WHOAMI'         },
-  { id: 'stack',      label: 'CAPABILITY MAP' },
-  { id: 'arch',       label: 'ARCHITECTURE'   },
-  { id: 'lab',        label: 'SYSTEMS LAB'    },
-  { id: 'work',       label: 'CASE STUDIES'   },
-  { id: 'experience', label: 'EXPERIENCE'     },
-  { id: 'cicd',       label: 'CI/CD FEED'     },
+  { id: 'hero', label: 'IDENTITY' },
+  { id: 'whoami', label: 'WHOAMI' },
+  // { id: 'stack',      label: 'CAPABILITY MAP' },
+  { id: 'arch', label: 'ARCHITECTURE' },
+  // { id: 'lab',        label: 'SYSTEMS LAB'    },
+  // { id: 'work',       label: 'CASE STUDIES'   },
+  { id: 'experience', label: 'EXPERIENCE' },
+  { id: 'cicd', label: 'CI/CD FEED' },
 ] as const satisfies readonly { id: string; label: string }[];
 
 export type SectionId = (typeof SECTIONS)[number]['id'];

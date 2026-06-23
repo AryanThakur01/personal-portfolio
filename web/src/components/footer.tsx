@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { sectionEyebrow } from '../data/sections';
 import { relTime, useEdgeInfo } from './system-health/hooks';
 import { Skeleton } from './system-health/primitives';
 import { buttonVariants } from './ui/button';
@@ -31,7 +32,7 @@ export function Footer() {
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-10 items-end">
           {/* Left */}
           <div>
-            <div className="eyebrow mb-4">08 / CONTACT</div>
+            <div className="eyebrow mb-4">{sectionEyebrow('contact')}</div>
             <h2
               className="font-mono font-medium text-text m-0 mb-[14px]"
               style={{ fontSize: 40, letterSpacing: '-0.02em' }}>

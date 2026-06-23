@@ -4,9 +4,11 @@ import { buttonVariants } from './ui/button';
 import { Logo } from '../assets/logo';
 
 const NAV_LINKS = [
-  { label: 'Work', href: '#work' },
-  { label: 'Lab', href: '#lab' },
-  { label: 'Stack', href: '#stack' },
+  // About | Architecture | Experience | CI/CD
+  // { label: 'Work', href: '#work' },
+  // { label: 'Lab', href: '#lab' },
+  // { label: 'Stack', href: '#stack' },
+  { label: 'About', href: '#whoami' },
   { label: '/infra', href: '#infra' },
 ];
 

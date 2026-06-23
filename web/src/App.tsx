@@ -21,6 +21,7 @@ const SECTION_COMPONENTS: Record<SectionId, React.ComponentType> = {
   whoami: Whoami,
   experience: Experience,
   arch: ArchitectureGraph,
+  cicd: CICDFeed,
 
   // stack:      CapabilityMap,
   // lab:        SystemsLab,
@@ -30,7 +31,7 @@ const SECTION_COMPONENTS: Record<SectionId, React.ComponentType> = {
   lab: () => <></>,
   work: () => <></>,
 
-  cicd: CICDFeed,
+  contact: Footer,
 };
 
 function App() {
@@ -47,7 +48,6 @@ function App() {
             return <Section key={id} />;
           })}
         </main>
-        <Footer />
       </div>
     </TooltipProvider>
   );

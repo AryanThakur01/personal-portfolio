@@ -19,11 +19,17 @@ import { SECTIONS, type SectionId } from './data/sections';
 const SECTION_COMPONENTS: Record<SectionId, React.ComponentType> = {
   hero: Hero,
   whoami: Whoami,
-  // stack:      CapabilityMap,
+  experience: Experience,
   arch: ArchitectureGraph,
+
+  // stack:      CapabilityMap,
   // lab:        SystemsLab,
   // work:       CaseStudies,
-  experience: Experience,
+  // Currently Disabled In progresss sections, but we want to keep the ids in the SECTIONS array for future use.
+  stack: () => <></>,
+  lab: () => <></>,
+  work: () => <></>,
+
   cicd: CICDFeed,
 };
 

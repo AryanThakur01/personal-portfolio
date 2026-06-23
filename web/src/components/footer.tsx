@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { relTime, useEdgeInfo } from './system-health/hooks';
 import { Skeleton } from './system-health/primitives';
+import { buttonVariants } from './ui/button';
 
 export function Footer() {
   const { pop, loading: edgeLoading, isLocal } = useEdgeInfo();
@@ -60,7 +61,11 @@ export function Footer() {
                   href={href}
                   target={href.startsWith('http') ? '_blank' : undefined}
                   rel="noopener noreferrer"
-                  className="no-underline font-mono text-[12px] text-text px-[14px] py-[9px] border border-border-hover rounded-[3px] inline-flex items-center gap-2 hover:border-accent-line hover:text-accent transition-all duration-150">
+                  className={buttonVariants({
+                    variant: 'secondary',
+                    size: 'sm',
+                    className: 'px-[14px] py-[9px]',
+                  })}>
                   {label}
                 </a>
               ))}

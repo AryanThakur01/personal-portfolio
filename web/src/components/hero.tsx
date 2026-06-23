@@ -1,4 +1,5 @@
 import { useISTClock } from "../hooks/use-ist-clock";
+import { buttonVariants } from "./ui/button";
 
 function GridBackground() {
   return (
@@ -114,16 +115,10 @@ export function Hero() {
 
         {/* CTAs */}
         <div className="flex flex-wrap gap-3">
-          <a
-            href="#work"
-            className="no-underline inline-flex items-center gap-[10px] font-mono text-[12px] tracking-[0.02em] px-[18px] py-[11px] rounded-[4px] bg-accent text-[#001a1f] font-semibold transition-all duration-150 hover:bg-[#22cce7] hover:-translate-y-px"
-          >
+          <a href="#work" className={buttonVariants({ variant: 'primary' })}>
             View Work <span>→</span>
           </a>
-          <a
-            href="#infra"
-            className="no-underline inline-flex items-center gap-[10px] font-mono text-[12px] tracking-[0.02em] px-[18px] py-[11px] rounded-[4px] border border-border-hover text-text transition-all duration-150 hover:border-accent-line hover:text-accent"
-          >
+          <a href="#infra" className={buttonVariants({ variant: 'secondary' })}>
             View Infrastructure <span>↗</span>
           </a>
         </div>

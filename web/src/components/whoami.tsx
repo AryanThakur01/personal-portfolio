@@ -1,17 +1,10 @@
 import { useEffect, useState } from 'react';
+import { useISTClock } from '../hooks/use-ist-clock';
 import { useTick } from '../hooks/use-tick';
 
-const START_DATE = new Date('2017-01-01T00:00:00Z').getTime();
+const START_DATE = new Date('2023-06-01T00:00:00Z').getTime();
 const TAGS = ['SYSTEMS', 'INFRA', 'DISTRIBUTED', 'DX'];
 
-function useUtcClock() {
-  useTick(1000);
-  const now = new Date();
-  const h = String(now.getUTCHours()).padStart(2, '0');
-  const m = String(now.getUTCMinutes()).padStart(2, '0');
-  const s = String(now.getUTCSeconds()).padStart(2, '0');
-  return `${h}:${m}:${s} UTC`;
-}
 
 function useUptime() {
   useTick(60000);
@@ -80,13 +73,13 @@ function Portrait({ onOpen }: { onOpen: () => void }) {
 }
 
 function StatGrid() {
-  const clock = useUtcClock();
+  const clock = useISTClock();
   const uptime = useUptime();
 
   const stats = [
     { label: 'UPTIME', value: uptime, accent: true },
-    { label: 'LOCATION', value: 'Bengaluru, IN' },
-    { label: 'LOCAL TIME', value: clock },
+    { label: 'LOCATION', value: 'Dehradun, IN' },
+    { label: 'LOCAL TIME (IST)', value: clock },
     { label: 'TIMEZONE', value: 'IST · UTC+5:30' },
     { label: 'PREF', value: 'remote-first' },
   ];

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { buttonVariants } from './ui/button';
+import { Logo } from '../assets/logo';
 
 const NAV_LINKS = [
   { label: 'Work', href: '#work' },
@@ -19,11 +20,9 @@ export function Navbar() {
           {/* Logo */}
           <a
             href="#top"
-            className="font-mono font-semibold text-[13px] tracking-wide flex items-center gap-2 text-text no-underline"
+            className="font-mono font-semibold text-sm tracking-wide flex items-center gap-2 text-text no-underline"
             onClick={() => setOpen(false)}>
-            <span className="relative w-[18px] h-[18px] border border-border-hover shrink-0">
-              <span className="absolute inset-[3px] bg-accent opacity-85" />
-            </span>
+            <Logo width={20} height={20} />
             AT_
           </a>
 
@@ -43,7 +42,11 @@ export function Navbar() {
             {/* Desktop CTA */}
             <a
               href="#contact"
-              className={buttonVariants({ variant: 'accent', size: 'sm', className: 'hidden md:inline-flex gap-2' })}>
+              className={buttonVariants({
+                variant: 'accent',
+                size: 'sm',
+                className: 'hidden md:inline-flex gap-2',
+              })}>
               <span className="w-[6px] h-[6px] rounded-full bg-accent shadow-[0_0_8px_var(--color-accent)]" />
               Contact Me
             </a>
@@ -75,7 +78,11 @@ export function Navbar() {
             <a
               href="#contact"
               onClick={() => setOpen(false)}
-              className={buttonVariants({ variant: 'accent', size: 'sm', className: 'mt-4 gap-2' })}>
+              className={buttonVariants({
+                variant: 'accent',
+                size: 'sm',
+                className: 'mt-4 gap-2',
+              })}>
               <span className="w-[6px] h-[6px] rounded-full bg-accent shadow-[0_0_8px_var(--color-accent)]" />
               Contact Me
             </a>

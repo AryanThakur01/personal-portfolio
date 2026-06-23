@@ -96,7 +96,6 @@ export function Footer() {
               view the repo
             </a>
           </span>
-          <span>Designed &amp; built · 0 trackers · 0 cookies</span>
         </div>
       </div>
     </footer>

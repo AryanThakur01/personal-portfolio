@@ -7,5 +7,7 @@ export function relTime(deltaMs: number): string {
   const m = Math.floor(s / 60);
   if (m < 60) return `${m}m ${s % 60}s ago`;
   const h = Math.floor(m / 60);
-  return `${h}h ${m % 60}m ago`;
+  if (h < 24) return `${h}h ${m % 60}m ago`;
+  const d = Math.floor(h / 24);
+  return `${d}d ${h % 24}h ago`;
 }

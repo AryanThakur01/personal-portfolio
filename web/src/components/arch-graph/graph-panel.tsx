@@ -143,7 +143,7 @@ export function GraphPanel({
       <svg
         viewBox="0 0 730 430"
         preserveAspectRatio="xMidYMid meet"
-        className="block w-full">
+        className="block w-full relative z-50">
         <defs>
           <marker
             id="arrow"

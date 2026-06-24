@@ -52,7 +52,7 @@ function Lightbox({ onClose }: { onClose: () => void }) {
 function Portrait({ onOpen }: { onOpen: () => void }) {
   return (
     <div
-      className="relative w-full overflow-hidden cursor-zoom-in"
+      className="relative w-full overflow-hidden cursor-pointer"
       style={{ aspectRatio: '3 / 4', background: '#0d0d0d' }}
       onClick={onOpen}
       role="button"

@@ -1,1 +1,4 @@
-export const assets = {};
+import profilePicture from "./profile-picture.webp"
+export const assets = {
+  profilePicture,
+};

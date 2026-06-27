@@ -3,6 +3,7 @@ import { useISTClock } from '../hooks/use-ist-clock';
 import { useTick } from '../hooks/use-tick';
 import { SectionHeader } from './ui/section-header';
 import { sectionEyebrow } from '../data/sections';
+import { assets } from '../assets';
 
 const START_DATE = new Date('2023-06-01T00:00:00Z').getTime();
 const TAGS = ['SYSTEMS', 'INFRA', 'DISTRIBUTED', 'DX'];
@@ -33,7 +34,7 @@ function Lightbox({ onClose }: { onClose: () => void }) {
       aria-modal="true"
       role="dialog">
       <img
-        src="/profile-picture.webp"
+        src={assets.profilePicture}
         alt="Portrait — Aryan Thakur"
         className="max-h-[90vh] max-w-[90vw] object-contain shadow-2xl"
         style={{ borderRadius: 2 }}
@@ -60,7 +61,7 @@ function Portrait({ onOpen }: { onOpen: () => void }) {
       onKeyDown={(e) => e.key === 'Enter' && onOpen()}
       aria-label="View portrait fullscreen">
       <img
-        src="/profile-picture.webp"
+        src={assets.profilePicture}
         alt="Portrait — Aryan Thakur"
         className="absolute inset-0 w-full h-full object-cover object-center"
         draggable={false}

@@ -116,8 +116,8 @@ export function Hero() {
 
         {/* CTAs */}
         <div className="flex flex-wrap gap-3">
-          <a href="#work" className={buttonVariants({ variant: 'primary' })}>
-            View Work <span>→</span>
+          <a href="#experience" className={buttonVariants({ variant: 'primary' })}>
+            View Experience <span>→</span>
           </a>
           <a href="#infra" className={buttonVariants({ variant: 'secondary' })}>
             View Infrastructure <span>↗</span>

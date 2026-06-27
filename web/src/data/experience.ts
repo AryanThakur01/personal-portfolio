@@ -33,7 +33,7 @@ export const ROLES: Role[] = [
         new Date().toISOString().slice(0, 7),
         ),
     bullets : [
-      'Owned end-to-end development of key features in a production KaiOS app serving 200K+ users, contributing to $1.5M funding.',
+      'Owned end-to-end development of key features in a production KaiOS app.',
       'Built microservice-oriented backend systems using Node.js and AWS Lambda. Modular, scalable, maintainable.',
       'Implemented real-time data workflows and optimised system performance under high traffic.',
       'Managed multi-environment AWS infrastructure (Dev/Staging/Prod) with CI/CD pipelines and monitoring.',

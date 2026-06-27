@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
-const API = 'https://api.github.com/repos/AryanThakur01/personal-portfolio/actions/runs?per_page=8';
+const API =
+  'https://api.github.com/repos/AryanThakur01/personal-portfolio/actions/runs?per_page=8';
 
 export type RunStatus = 'pass' | 'fail' | 'build';
 
@@ -14,7 +15,11 @@ export interface WorkflowRun {
   agoMs: number;
 }
 
-function formatDur(startedAt: string, updatedAt: string, inProgress: boolean): string {
+function formatDur(
+  startedAt: string,
+  updatedAt: string,
+  inProgress: boolean,
+): string {
   const start = new Date(startedAt).getTime();
   const end = inProgress ? Date.now() : new Date(updatedAt).getTime();
   const secs = Math.max(0, Math.floor((end - start) / 1000));
@@ -25,13 +30,17 @@ function formatDur(startedAt: string, updatedAt: string, inProgress: boolean): s
 function mapRun(run: any): WorkflowRun {
   const inProgress = run.status === 'in_progress' || run.status === 'queued';
   return {
-    id:     run.id,
-    hash:   run.head_sha.slice(0, 7),
-    msg:    run.head_commit?.message?.split('\n')[0] ?? '',
+    id: run.id,
+    hash: run.head_sha.slice(0, 7),
+    msg: run.head_commit?.message?.split('\n')[0] ?? '',
     branch: run.head_branch ?? 'unknown',
-    status: inProgress ? 'build' : run.conclusion === 'success' ? 'pass' : 'fail',
-    dur:    formatDur(run.run_started_at, run.updated_at, inProgress),
-    agoMs:  Date.now() - new Date(run.updated_at).getTime(),
+    status: inProgress
+      ? 'build'
+      : run.conclusion === 'success'
+        ? 'pass'
+        : 'fail',
+    dur: formatDur(run.run_started_at, run.updated_at, inProgress),
+    agoMs: Date.now() - new Date(run.updated_at).getTime(),
   };
 }
 
@@ -41,8 +50,7 @@ export function useWorkflowRuns() {
   const [error, setError] = useState<string | null>(null);
 
   async function loadRuns() {
-    const token = import.meta.env.VITE_GITHUB_TOKEN;
-    const headers: HeadersInit = token ? { Authorization: `Bearer ${token}` } : {};
+    const headers: HeadersInit = {};
 
     try {
       const res = await fetch(API, { headers });

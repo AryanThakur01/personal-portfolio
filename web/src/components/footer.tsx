@@ -3,6 +3,7 @@ import { sectionEyebrow } from '../data/sections';
 import { relTime, useEdgeInfo } from './system-health/hooks';
 import { Skeleton } from './system-health/primitives';
 import { buttonVariants } from './ui/button';
+import { assets } from '../assets';
 
 export function Footer() {
   const { pop, loading: edgeLoading, isLocal } = useEdgeInfo();
@@ -54,7 +55,7 @@ export function Footer() {
                   label: '↗ linkedin.com/in/aryanthakur010',
                   href: 'https://linkedin.com/in/aryanthakur010',
                 },
-                { label: '↗ /resume.pdf', href: '/resume.pdf' },
+                { label: '↗ /resume.pdf', href: assets.resume },
               ].map(({ label, href }) => (
                 <a
                   key={label}

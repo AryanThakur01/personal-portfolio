@@ -12,11 +12,6 @@
 - [Overview](#overview)
 - [Tech Stack](#tech-stack)
 - [Getting Started](#getting-started)
-- [Project Structure](#project-structure)
-- [Development Guide](#development-guide)
-- [Good Coding Practices](#good-coding-practices)
-- [Deployment](#deployment)
-- [Contributing](#contributing)
 - [License](#license)
 
 ---

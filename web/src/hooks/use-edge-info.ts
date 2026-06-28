@@ -10,7 +10,7 @@ export function useEdgeInfo() {
   useEffect(() => {
     if (isLocal) return;
     const start = performance.now();
-    fetch('https://d2h4lszp1ffbsn.cloudfront.net/source.txt', {
+    fetch('/source.txt', {
       cache: 'no-store',
     })
       .then((res) => {

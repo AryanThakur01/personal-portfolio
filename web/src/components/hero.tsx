@@ -106,14 +106,6 @@ export function Hero() {
           />
         </h1>
 
-        {/* Tagline */}
-        <p className="font-mono text-[16px] text-text-2 tracking-[-0.005em] mb-10 max-w-[720px]">
-          Full Stack Engineer.
-          <br />
-          <span className="text-text-3">// </span>
-          Systems over features. Infrastructure-aware. Remote-first.
-        </p>
-
         {/* CTAs */}
         <div className="flex flex-wrap gap-3">
           <a href="#experience" className={buttonVariants({ variant: 'primary' })}>

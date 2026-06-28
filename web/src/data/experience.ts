@@ -67,7 +67,6 @@ export const ROLES: Role[] = [
     bullets : [
       'Developed and maintained Shopify applications with backend integration and REST APIs.',
       'Implemented web analytics tracking to improve user insights and system performance.',
-      'Built serverless ML pipelines on AWS (Lambda, S3, API Gateway) for automated data processing.',
     ],
     stack : [ 'SHOPIFY', 'AWS', 'LAMBDA', 'S3', 'ML' ],
     caseStudy : false,

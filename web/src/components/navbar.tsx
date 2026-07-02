@@ -66,7 +66,7 @@ export function Navbar() {
 
       {/* Mobile overlay */}
       {open && (
-        <div className="fixed inset-0 z-40 bg-bg flex flex-col pt-12 md:hidden">
+        <div className="fixed inset-0 z-99 bg-bg flex flex-col pt-12 md:hidden">
           <div className="flex flex-col flex-1 px-6 py-10 gap-1">
             {NAV_LINKS.map(({ label, href }) => (
               <a

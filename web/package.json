@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@radix-ui/react-tooltip": "^1.2.9",
+    "@tanstack/react-router": "^1.170.18",
+    "@tanstack/react-router-devtools": "^1.167.0",
     "clsx": "^2.1.1",
     "lucide-react": "^1.21.0",
     "mermaid": "^11.15.0",
@@ -28,6 +30,7 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@tailwindcss/vite": "^4.3.0",
+    "@tanstack/router-plugin": "^1.168.20",
     "@types/node": "^24.12.3",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",

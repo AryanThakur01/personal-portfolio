@@ -8,7 +8,6 @@ export function usePagePerf() {
     const navEntries = performance.getEntriesByType('navigation');
     if (navEntries.length) {
       const nav = navEntries[0] as PerformanceNavigationTiming;
-      console.log(nav)
       setTtfb(Math.round(nav.responseStart - nav.requestStart));
     }
     setLoading(false);

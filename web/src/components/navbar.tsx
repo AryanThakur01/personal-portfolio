@@ -5,10 +5,10 @@ import { Logo } from '../assets/logo';
 
 const NAV_LINKS = [
   // About | Architecture | Experience | CI/CD
-  // { label: 'Work', href: '#work' },
-  // { label: 'Lab', href: '#lab' },
   // { label: 'Stack', href: '#stack' },
   { label: 'About', href: '#whoami' },
+  { label: 'Experience', href: '#experience' },
+  { label: 'Lab', href: '#lab' },
   { label: '/infra', href: '#infra' },
 ];
 

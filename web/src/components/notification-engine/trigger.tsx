@@ -17,7 +17,7 @@ enum NotificationHandleType {
   ERROR = 'error',
 }
 
-const FAN_OUT_OPTIONS = [1, 5, 10] as const;
+const FAN_OUT_OPTIONS = [1, 5, 10, 20, 50] as const;
 
 const notificationTriggerValidator = z.object({
   priority: z.enum(NotificationPriority),

@@ -3,6 +3,7 @@ import './index.css';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider, createRouter } from '@tanstack/react-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { DEFAULT_QUERY_STALE_TIME } from './constants';
 
 // Import the generated route tree
 import { routeTree } from './routeTree.gen';
@@ -10,8 +11,15 @@ import { routeTree } from './routeTree.gen';
 // Create a new router instance
 const router = createRouter({ routeTree });
 
-// Create a single query client for the app
-const queryClient = new QueryClient();
+// Create a single query client for the app. All GET queries inherit the
+// default staleTime; individual hooks can still override it when needed.
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: DEFAULT_QUERY_STALE_TIME,
+    },
+  },
+});
 
 // Register the router instance for type safety
 declare module '@tanstack/react-router' {

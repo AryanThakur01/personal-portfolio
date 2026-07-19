@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { cn } from '../../utils';
 import { Button } from '../ui/button';
 import { SectionHeader } from '../ui/section-header';
+import { useDispatchNotification } from '../../hooks/apis/use-dispatch-notification';
 
 enum NotificationPriority {
   HIGH = 'high',
@@ -30,7 +31,7 @@ const notificationTriggerValidator = z.object({
   }),
 });
 
-type NotificationTriggerForm = z.infer<typeof notificationTriggerValidator>;
+export type NotificationTriggerForm = z.infer<typeof notificationTriggerValidator>;
 
 const fieldClass =
   'w-full border border-border bg-bg-elev px-4 py-3 font-mono text-[13px] text-text outline-none transition-colors duration-150 placeholder:text-text-4 focus:border-accent-line';
@@ -49,10 +50,12 @@ function FieldError({ children }: { children?: string }) {
 }
 
 export const NotificationTrigger = () => {
+  const dispatch = useDispatchNotification();
+
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<NotificationTriggerForm>({
     resolver: zodResolver(notificationTriggerValidator),
     defaultValues: {
@@ -61,14 +64,7 @@ export const NotificationTrigger = () => {
       data: {
         webhookUrl: '',
         data: {
-          message: JSON.stringify(
-            {
-              event: 'order.created',
-              orderId: 12345,
-            },
-            null,
-            2,
-          ),
+          message: 'Hello there! Did you receive my message?',
           handleType: NotificationHandleType.SUCCESS,
         },
       },
@@ -76,7 +72,7 @@ export const NotificationTrigger = () => {
   });
 
   const onSubmit = (values: NotificationTriggerForm) => {
-    console.log(values);
+    dispatch.mutate(values);
   };
 
   return (
@@ -172,9 +168,9 @@ export const NotificationTrigger = () => {
 
             <Button
               type="submit"
-              disabled={isSubmitting}
+              disabled={dispatch.isPending}
               className="w-full justify-center">
-              {isSubmitting ? 'Dispatching...' : 'Dispatch'}
+              {dispatch.isPending ? 'Dispatching...' : 'Dispatch'}
             </Button>
           </div>
         </form>

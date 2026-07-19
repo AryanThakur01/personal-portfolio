@@ -3,16 +3,10 @@ import { Menu, X } from 'lucide-react';
 import { buttonVariants } from './ui/button';
 import { Logo } from '../assets/logo';
 
-const NAV_LINKS = [
-  // About | Architecture | Experience | CI/CD
-  // { label: 'Work', href: '#work' },
-  // { label: 'Lab', href: '#lab' },
-  // { label: 'Stack', href: '#stack' },
-  { label: 'About', href: '#whoami' },
-  { label: '/infra', href: '#infra' },
-];
-
-export function Navbar() {
+interface INavbarProps {
+  navLinks: { label: string; href: string }[];
+}
+export function Navbar({ navLinks }: INavbarProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -21,7 +15,7 @@ export function Navbar() {
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 h-full flex items-center justify-between gap-4">
           {/* Logo */}
           <a
-            href="#top"
+            href="/"
             className="font-mono font-semibold text-sm tracking-wide flex items-center gap-2 text-text no-underline"
             onClick={() => setOpen(false)}>
             <Logo width={20} height={20} />
@@ -30,7 +24,7 @@ export function Navbar() {
 
           {/* Desktop nav links */}
           <div className="hidden md:flex gap-1">
-            {NAV_LINKS.map(({ label, href }) => (
+            {navLinks.map(({ label, href }) => (
               <a
                 key={label}
                 href={href}
@@ -68,7 +62,7 @@ export function Navbar() {
       {open && (
         <div className="fixed inset-0 z-99 bg-bg flex flex-col pt-12 md:hidden">
           <div className="flex flex-col flex-1 px-6 py-10 gap-1">
-            {NAV_LINKS.map(({ label, href }) => (
+            {navLinks.map(({ label, href }) => (
               <a
                 key={label}
                 href={href}

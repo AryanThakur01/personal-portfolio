@@ -1,3 +1,5 @@
+import { WEBSITE_URL } from '../constants';
+
 export interface LabProject {
   name: string;
   problem: string;
@@ -10,16 +12,19 @@ export interface LabProject {
 
 export const LAB: LabProject[] = [
   {
-    name: 'Coming soon',
+    name: 'Notification Fan-out Engine',
     problem:
-      "I'm building out the first few cards now. Follow along on Twitter for updates, or reach out if you have a mini-system you think would be a good fit for the lab!",
+      'A webhook fan-out delivery system with at-least-once guarantees: one dispatch ' +
+      'explodes into N deliveries through SQS, processed by Lambda, with automatic ' +
+      'retries and a dead-letter queue for messages that keep failing. Point it at a ' +
+      'webhook.site URL and watch deliveries, retries, and backoff happen live.',
     pattern: {
-      b: 'Under Planning',
-      rest: ' - stay tuned for the first few cards to go live in the next couple months.',
+      b: 'Live',
+      rest: ' — dispatch a fan-out, inject failures, and watch retries and dead-lettering happen live.',
     },
-    tags: ['Planning'],
+    tags: ['SQS', 'Lambda', 'DynamoDB', 'At-least-once'],
     live: true,
-    demo: '#',
-    repoUrl: 'https://www.github.com/AryanThakur01',
+    demo: `${WEBSITE_URL}/notification-fan-out-engine`,
+    repoUrl: 'https://github.com/AryanThakur01/notification-engine',
   },
 ];

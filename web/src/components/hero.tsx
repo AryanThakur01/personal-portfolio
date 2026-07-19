@@ -1,6 +1,6 @@
-import { useISTClock } from "../hooks/use-ist-clock";
-import { buttonVariants } from "./ui/button";
-import { sectionNum } from "../data/sections";
+import { useISTClock } from '../hooks/use-ist-clock';
+import { buttonVariants } from './ui/button';
+import { sectionNum } from '../data/sections';
 
 function GridBackground() {
   return (
@@ -8,11 +8,11 @@ function GridBackground() {
       className="absolute inset-0 pointer-events-none"
       style={{
         backgroundImage:
-          "linear-gradient(#222 1px, transparent 1px), linear-gradient(90deg, #222 1px, transparent 1px)",
-        backgroundSize: "64px 64px",
+          'linear-gradient(#222 1px, transparent 1px), linear-gradient(90deg, #222 1px, transparent 1px)',
+        backgroundSize: '64px 64px',
         opacity: 0.35,
         maskImage:
-          "radial-gradient(ellipse at center, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 72%)",
+          'radial-gradient(ellipse at center, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 72%)',
       }}
     />
   );
@@ -24,8 +24,7 @@ function CircuitTraces() {
       className="absolute inset-0 w-full h-full pointer-events-none opacity-50"
       viewBox="0 0 1440 900"
       preserveAspectRatio="none"
-      aria-hidden="true"
-    >
+      aria-hidden="true">
       <defs>
         <linearGradient id="fade-l" x1="0" y1="0" x2="1" y2="0">
           <stop offset="0%" stopColor="#06b6d4" stopOpacity="0" />
@@ -48,7 +47,10 @@ function CircuitTraces() {
       {/* Glowing accent traces */}
       <g fill="none" strokeWidth="1.2">
         <path d="M 0 720 L 240 720 L 280 680 L 520 680" stroke="url(#fade-l)" />
-        <path d="M 1440 200 L 1200 200 L 1160 240 L 980 240" stroke="url(#fade-r)" />
+        <path
+          d="M 1440 200 L 1200 200 L 1160 240 L 980 240"
+          stroke="url(#fade-r)"
+        />
       </g>
       {/* Terminal dots */}
       <g fill="#06b6d4">
@@ -67,8 +69,7 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-bg pt-12"
-    >
+      className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-bg">
       <GridBackground />
       <CircuitTraces />
 
@@ -76,7 +77,8 @@ export function Hero() {
         {/* Meta row */}
         <div className="flex flex-wrap gap-x-7 gap-y-2 mb-8 font-mono text-[11px] tracking-widest uppercase text-text-3">
           <span>
-            <b className="text-text-2 font-medium">{sectionNum('hero')}</b> / IDENTITY
+            <b className="text-text-2 font-medium">{sectionNum('hero')}</b> /
+            IDENTITY
           </span>
           <span>
             LOC <b className="text-text-2 font-medium">DEHRADUN · IST</b>
@@ -94,21 +96,23 @@ export function Hero() {
         </div>
 
         {/* Name */}
-        <h1 className="font-mono font-medium leading-[1.02] tracking-[-0.035em] mb-6 text-text"
-          style={{ fontSize: "clamp(48px, 7.5vw, 96px)" }}
-        >
+        <h1
+          className="font-mono font-medium leading-[1.02] tracking-[-0.035em] mb-6 text-text"
+          style={{ fontSize: 'clamp(48px, 7.5vw, 96px)' }}>
           Aryan
           <br />
           Thakur
           <span
             className="inline-block w-[0.45ch] h-[0.85em] bg-accent align-middle ml-1 translate-y-[-0.05em]"
-            style={{ animation: "blink 1.1s step-end infinite" }}
+            style={{ animation: 'blink 1.1s step-end infinite' }}
           />
         </h1>
 
         {/* CTAs */}
         <div className="flex flex-wrap gap-3">
-          <a href="#experience" className={buttonVariants({ variant: 'primary' })}>
+          <a
+            href="#experience"
+            className={buttonVariants({ variant: 'primary' })}>
             View Experience <span>→</span>
           </a>
           <a href="#infra" className={buttonVariants({ variant: 'secondary' })}>

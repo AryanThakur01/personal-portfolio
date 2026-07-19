@@ -4,7 +4,7 @@ export type ButtonVariant = 'primary' | 'secondary' | 'accent';
 export type ButtonSize = 'sm' | 'md';
 
 const BASE =
-  'inline-flex items-center font-mono tracking-[0.02em] rounded-[4px] transition-all duration-150 no-underline cursor-pointer';
+  'inline-flex items-center font-mono tracking-[0.02em] rounded-[4px] transition-all duration-150 no-underline cursor-pointer disabled:opacity-50 disabled:pointer-events-none';
 
 const VARIANTS: Record<ButtonVariant, string> = {
   primary:

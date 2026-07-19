@@ -7,12 +7,12 @@ export const SECTIONS = [
   { id: 'hero', label: 'IDENTITY' },
   { id: 'whoami', label: 'WHOAMI' },
   { id: 'experience', label: 'EXPERIENCE' },
+  { id: 'lab', label: 'SYSTEMS LAB' },
   { id: 'arch', label: 'ARCHITECTURE' },
   { id: 'cicd', label: 'CI/CD FEED' },
   { id: 'contact', label: 'CONTACT' },
 
   { id: 'stack', label: 'CAPABILITY MAP' },
-  { id: 'lab', label: 'SYSTEMS LAB' },
   { id: 'work', label: 'CASE STUDIES' },
 ] as const satisfies readonly { id: string; label: string }[];
 

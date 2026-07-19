@@ -1,4 +1,6 @@
+import { RefreshCw } from 'lucide-react';
 import { cn } from '../../utils';
+import { Button } from '../ui/button';
 import { SectionHeader } from '../ui/section-header';
 import {
   useNotificationStats,
@@ -124,12 +126,26 @@ function StatsSkeleton() {
 }
 
 export function NotificationStats() {
-  const { data, isLoading } = useNotificationStats();
+  const { data, isLoading, isFetching, refetch } = useNotificationStats();
 
   return (
     <section className="border-t border-border pt-12 pb-16 sm:pb-24">
       <div className="max-w-[1240px] mx-auto px-[22px] sm:px-8">
-        <SectionHeader eyebrow="METRICS" title="Queue depth by priority." />
+        <SectionHeader eyebrow="METRICS" title="Queue depth by priority.">
+          <Button
+            type="button"
+            variant="secondary"
+            size="sm"
+            onClick={() => refetch()}
+            disabled={isFetching}
+            className="gap-2 self-start sm:self-auto">
+            <RefreshCw
+              size={13}
+              className={cn('shrink-0', isFetching && 'animate-spin')}
+            />
+            Refresh
+          </Button>
+        </SectionHeader>
 
         {isLoading ? (
           <StatsSkeleton />

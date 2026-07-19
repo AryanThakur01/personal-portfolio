@@ -17,7 +17,7 @@ enum NotificationHandleType {
   ERROR = 'error',
 }
 
-const FAN_OUT_OPTIONS = [1, 5, 10, 15, 20] as const;
+const FAN_OUT_OPTIONS = [1, 5, 10] as const;
 
 const notificationTriggerValidator = z.object({
   priority: z.enum(NotificationPriority),
@@ -31,7 +31,9 @@ const notificationTriggerValidator = z.object({
   }),
 });
 
-export type NotificationTriggerForm = z.infer<typeof notificationTriggerValidator>;
+export type NotificationTriggerForm = z.infer<
+  typeof notificationTriggerValidator
+>;
 
 const fieldClass =
   'w-full border border-border bg-bg-elev px-4 py-3 font-mono text-[13px] text-text outline-none transition-colors duration-150 placeholder:text-text-4 focus:border-accent-line';

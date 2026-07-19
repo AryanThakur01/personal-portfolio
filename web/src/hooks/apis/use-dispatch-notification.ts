@@ -3,13 +3,14 @@ import { toast } from 'sonner';
 import type { NotificationTriggerForm } from '../../components/notification-engine/trigger';
 import { _fetch } from '../../utils';
 
-const DISPATCH_PATH = '/notifications/dispatch';
+const DISPATCH_PATH = '/notification';
 
 // Request body shape expected by the dispatch endpoint.
 export interface DispatchNotificationPayload {
   priority: NotificationTriggerForm['priority'];
   data: {
     webhookUrl: string;
+    fanOut: NotificationTriggerForm['fanOut'];
     data: {
       message: string;
       handleType: NotificationTriggerForm['data']['data']['handleType'];
@@ -24,6 +25,7 @@ function toPayload(
     priority: values.priority,
     data: {
       webhookUrl: values.data.webhookUrl,
+      fanOut: values.fanOut,
       data: {
         message: values.data.data.message,
         handleType: values.data.data.handleType,

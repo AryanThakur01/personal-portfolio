@@ -25,6 +25,6 @@ export const LAB: LabProject[] = [
     tags: ['SQS', 'Lambda', 'DynamoDB', 'At-least-once'],
     live: true,
     demo: `${WEBSITE_URL}/notification-fan-out-engine`,
-    repoUrl: 'https://github.com/AryanThakur01',
+    repoUrl: 'https://github.com/AryanThakur01/notification-engine',
   },
 ];

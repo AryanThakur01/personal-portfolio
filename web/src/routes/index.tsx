@@ -1,7 +1,6 @@
 import { Hero } from '../components/hero';
 import { Navbar } from '../components/navbar';
 import { SystemHealth } from '../components/system-health';
-import { TooltipProvider } from '../components/tooltip';
 import { createFileRoute } from '@tanstack/react-router';
 import { Whoami } from '../components/whoami';
 import { ArchitectureGraph } from '../components/arch-graph';
@@ -33,20 +32,27 @@ const SECTION_COMPONENTS: Record<SectionId, React.ComponentType> = {
 
   contact: Footer,
 };
+const NAV_LINKS = [
+  // About | Architecture | Experience | CI/CD
+  // { label: 'Stack', href: '#stack' },
+  { label: 'About', href: '#whoami' },
+  { label: 'Experience', href: '#experience' },
+  { label: 'Lab', href: '#lab' },
+  { label: '/infra', href: '#infra' },
+];
+
 function RouteComponent() {
   return (
-    <TooltipProvider>
-      <div className="min-h-screen bg-bg text-text font-sans">
-        <Navbar />
-        <main>
-          <Hero />
-          <SystemHealth />
-          {SECTIONS.filter(({ id }) => id !== 'hero').map(({ id }) => {
-            const Section = SECTION_COMPONENTS[id];
-            return <Section key={id} />;
-          })}
-        </main>
-      </div>
-    </TooltipProvider>
+    <>
+      <Navbar navLinks={NAV_LINKS} />
+      <main>
+        <Hero />
+        <SystemHealth />
+        {SECTIONS.filter(({ id }) => id !== 'hero').map(({ id }) => {
+          const Section = SECTION_COMPONENTS[id];
+          return <Section key={id} />;
+        })}
+      </main>
+    </>
   );
 }

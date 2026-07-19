@@ -1,5 +1,5 @@
-import * as React from 'react';
 import { Outlet, createRootRoute } from '@tanstack/react-router';
+import { TooltipProvider } from '../components/tooltip';
 
 export const Route = createRootRoute({
   component: RootComponent,
@@ -7,8 +7,10 @@ export const Route = createRootRoute({
 
 function RootComponent() {
   return (
-    <React.Fragment>
-      <Outlet />
-    </React.Fragment>
+    <TooltipProvider>
+      <div className="bg-bg min-h-screen text-text font-sans pt-12">
+        <Outlet />
+      </div>
+    </TooltipProvider>
   );
 }

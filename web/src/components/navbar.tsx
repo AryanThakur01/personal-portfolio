@@ -37,7 +37,7 @@ export function Navbar({ navLinks }: INavbarProps) {
           <div className="flex items-center gap-3">
             {/* Desktop CTA */}
             <a
-              href="#contact"
+              href="/#contact"
               className={buttonVariants({
                 variant: 'accent',
                 size: 'sm',
@@ -72,7 +72,7 @@ export function Navbar({ navLinks }: INavbarProps) {
               </a>
             ))}
             <a
-              href="#contact"
+              href="/#contact"
               onClick={() => setOpen(false)}
               className={buttonVariants({
                 variant: 'accent',

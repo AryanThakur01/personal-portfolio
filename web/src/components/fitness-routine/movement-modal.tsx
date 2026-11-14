@@ -9,7 +9,7 @@ import {
   type Movement,
 } from '../../data/fitness';
 import { cn } from '../../utils';
-import { MovementView } from './movement-view';
+import { Figure } from './figure';
 import { Badge, Label } from './primitives';
 
 /**
@@ -43,8 +43,8 @@ export function InfoButton({
 function MovementBody({ movement }: { movement: Movement }) {
   return (
     <>
-      <div className="mb-5">
-        <MovementView sequence={movement.sequence} />
+      <div className="border border-border bg-bg rounded-[4px] mb-5">
+        <Figure sequence={movement.sequence} className="w-full h-[220px]" />
       </div>
 
       <p className="text-[13px] text-text-2 leading-[1.6] m-0 mb-5">
@@ -84,8 +84,8 @@ function LadderBody({
   return (
     <>
       {movement && (
-        <div className="mb-5">
-          <MovementView sequence={movement.sequence} />
+        <div className="border border-border bg-bg rounded-[4px] mb-5">
+          <Figure sequence={movement.sequence} className="w-full h-[220px]" />
         </div>
       )}
 

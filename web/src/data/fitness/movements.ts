@@ -20,15 +20,6 @@ export interface Pose {
   forearm?: number;
   upperArmFar?: number;
   forearmFar?: number;
-  /**
-   * Rotation out of the side-view plane, in degrees. Only the 3D figure uses
-   * these; the flat drawing ignores them.
-   */
-  spineTwist?: number;
-  upperArmTwist?: number;
-  upperArmFarTwist?: number;
-  thighTwist?: number;
-  thighFarTwist?: number;
   thigh?: number;
   shin?: number;
   foot?: number;
@@ -46,10 +37,6 @@ export interface PoseSequence {
   duration: number;
   /** Prop drawn behind the figure. */
   ground?: 'floor' | 'bar' | 'bars' | 'wall' | 'box';
-  /** Camera position for the 3D view. Defaults to a side-on three-quarter. */
-  camera?: [number, number, number];
-  /** Floor height in the 3D view, when the default sits wrong. */
-  groundY?: number;
 }
 
 export interface Movement {

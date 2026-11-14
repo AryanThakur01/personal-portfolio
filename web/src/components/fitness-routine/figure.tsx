@@ -297,7 +297,7 @@ function Body({ joints }: { joints: Joints }) {
 }
 
 /** Everything needed to frame the movement and place its props. */
-function measure(poses: Pose[]) {
+export function measure(poses: Pose[]) {
   const all = poses.map(solve);
   const points = all.flatMap((j) => Object.values(j) as Vec[]);
 

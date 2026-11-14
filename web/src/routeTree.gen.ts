@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as NotificationFanOutEngineIndexRouteImport } from './routes/notification-fan-out-engine/index'
+import { Route as FitnessRoutineIndexRouteImport } from './routes/fitness-routine/index'
 import { Route as SecretFlowersIndexRouteImport } from './routes/secret/flowers/index'
 
 const IndexRoute = IndexRouteImport.update({
@@ -24,6 +25,11 @@ const NotificationFanOutEngineIndexRoute =
     path: '/notification-fan-out-engine/',
     getParentRoute: () => rootRouteImport,
   } as any)
+const FitnessRoutineIndexRoute = FitnessRoutineIndexRouteImport.update({
+  id: '/fitness-routine/',
+  path: '/fitness-routine/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SecretFlowersIndexRoute = SecretFlowersIndexRouteImport.update({
   id: '/secret/flowers/',
   path: '/secret/flowers/',
@@ -32,30 +38,47 @@ const SecretFlowersIndexRoute = SecretFlowersIndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/fitness-routine/': typeof FitnessRoutineIndexRoute
   '/notification-fan-out-engine/': typeof NotificationFanOutEngineIndexRoute
   '/secret/flowers/': typeof SecretFlowersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/fitness-routine': typeof FitnessRoutineIndexRoute
   '/notification-fan-out-engine': typeof NotificationFanOutEngineIndexRoute
   '/secret/flowers': typeof SecretFlowersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/fitness-routine/': typeof FitnessRoutineIndexRoute
   '/notification-fan-out-engine/': typeof NotificationFanOutEngineIndexRoute
   '/secret/flowers/': typeof SecretFlowersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/notification-fan-out-engine/' | '/secret/flowers/'
+  fullPaths:
+    | '/'
+    | '/fitness-routine/'
+    | '/notification-fan-out-engine/'
+    | '/secret/flowers/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/notification-fan-out-engine' | '/secret/flowers'
-  id: '__root__' | '/' | '/notification-fan-out-engine/' | '/secret/flowers/'
+  to:
+    | '/'
+    | '/fitness-routine'
+    | '/notification-fan-out-engine'
+    | '/secret/flowers'
+  id:
+    | '__root__'
+    | '/'
+    | '/fitness-routine/'
+    | '/notification-fan-out-engine/'
+    | '/secret/flowers/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  FitnessRoutineIndexRoute: typeof FitnessRoutineIndexRoute
   NotificationFanOutEngineIndexRoute: typeof NotificationFanOutEngineIndexRoute
   SecretFlowersIndexRoute: typeof SecretFlowersIndexRoute
 }
@@ -76,6 +99,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NotificationFanOutEngineIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/fitness-routine/': {
+      id: '/fitness-routine/'
+      path: '/fitness-routine'
+      fullPath: '/fitness-routine/'
+      preLoaderRoute: typeof FitnessRoutineIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/secret/flowers/': {
       id: '/secret/flowers/'
       path: '/secret/flowers'
@@ -88,6 +118,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  FitnessRoutineIndexRoute: FitnessRoutineIndexRoute,
   NotificationFanOutEngineIndexRoute: NotificationFanOutEngineIndexRoute,
   SecretFlowersIndexRoute: SecretFlowersIndexRoute,
 }

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { Stage, repProgress } from './anim/stage';
+import { Stage, frameExercise, repProgress } from './anim/stage';
 import type { ExerciseDef } from './anim/types';
 
 /**
@@ -32,13 +32,28 @@ export function Figure3D({
     if (!mount) return;
 
     const stage = new Stage(mount);
-    stage.cam.target = [...exercise.camera.target];
-    stage.cam.radius = exercise.camera.radius;
     stage.cam.az = azimuth;
     stage.cam.azTarget = azimuth;
     stage.showProps(exercise.props);
 
-    const observer = new ResizeObserver(() => stage.resize());
+    // Framed from the movement itself, so nothing drifts out of the panel
+    // whatever shape the panel is.
+    let focus = frameExercise(
+      exercise.pose,
+      stage.camera.fov,
+      mount.clientWidth / Math.max(1, mount.clientHeight),
+    );
+    stage.cam.target = [...focus.target];
+    stage.cam.radius = focus.radius;
+
+    const observer = new ResizeObserver(() => {
+      stage.resize();
+      focus = frameExercise(
+        exercise.pose,
+        stage.camera.fov,
+        mount.clientWidth / Math.max(1, mount.clientHeight),
+      );
+    });
     observer.observe(mount);
     stage.resize();
 
@@ -81,7 +96,7 @@ export function Figure3D({
         if (bell) bell.position.set(pose._handPoint[0], pose._handPoint[1], 0);
       }
 
-      stage.updateCamera(exercise.camera);
+      stage.updateCamera(focus);
       stage.render();
       raf = requestAnimationFrame(frame);
     };

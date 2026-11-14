@@ -515,6 +515,72 @@ export class Stage {
   }
 }
 
+/**
+ * Works out where to point the camera by sampling the whole rep.
+ *
+ * Hand-set targets drift out of frame as soon as a pose changes, so the frame
+ * is derived from the movement: every contact point across the rep is
+ * collected and the camera is pulled back far enough to hold all of them at
+ * the given aspect ratio.
+ */
+export function frameExercise(
+  pose: (d: number) => ExercisePose,
+  fovDeg: number,
+  aspect: number,
+): { target: [number, number, number]; radius: number } {
+  let minX = Infinity;
+  let maxX = -Infinity;
+  let minY = Infinity;
+  let maxY = -Infinity;
+
+  const see = (pt: Vec2) => {
+    minX = Math.min(minX, pt[0]);
+    maxX = Math.max(maxX, pt[0]);
+    minY = Math.min(minY, pt[1]);
+    maxY = Math.max(maxY, pt[1]);
+  };
+
+  for (let i = 0; i <= 12; i++) {
+    const p = pose(i / 12);
+    see(p.pelvis);
+    see(p.shoulders);
+    see(p.ankle);
+    see(p.toe);
+    see(p.hand);
+    if (p.ankleFar) see(p.ankleFar);
+    if (p.toeFar) see(p.toeFar);
+    if (p.handFar) see(p.handFar);
+    // The head sits a little beyond the shoulders.
+    see([
+      p.shoulders[0] + 0.34 * Math.sin(p.headAngle),
+      p.shoulders[1] + 0.34 * Math.cos(p.headAngle),
+    ]);
+  }
+
+  // Limb thickness and the floor need a little room beyond the joints.
+  const pad = 0.22;
+  minX -= pad;
+  maxX += pad;
+  minY -= pad;
+  maxY += pad;
+
+  const width = maxX - minX;
+  const height = maxY - minY;
+
+  const vFov = fovDeg * (Math.PI / 180);
+  const hFov = 2 * Math.atan(Math.tan(vFov / 2) * aspect);
+
+  const radius = Math.max(
+    height / 2 / Math.tan(vFov / 2),
+    width / 2 / Math.tan(hFov / 2),
+  );
+
+  return {
+    target: [(minX + maxX) / 2, (minY + maxY) / 2, 0],
+    radius: Math.max(radius * 1.12, 1.6),
+  };
+}
+
 /** Maps rep time to pose depth `d` plus which tempo segment is running. */
 export function repProgress(
   u: number,

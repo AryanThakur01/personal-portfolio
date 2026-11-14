@@ -68,7 +68,8 @@ export interface ExerciseDef {
   tempo: [number, number, number, number];
   /** Label for each of those four segments. */
   phases: [string, string, string, string];
-  camera: { target: [number, number, number]; radius: number };
+  /** Optional camera override; framing is derived from the pose by default. */
+  camera?: { target: [number, number, number]; radius: number };
   props: PropName[];
   /** True when the barbell should track the hand. */
   barbell?: boolean;

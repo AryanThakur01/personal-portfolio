@@ -42,15 +42,33 @@ function rigidLine(anchor: Vec2, sy: number, reach: number) {
   };
 }
 
-/** Lying on the back: pelvis on the floor, head toward +x. */
+/**
+ * Lying on the back.
+ *
+ * The figure faces +x, so putting the head at +x rolls the face downward and
+ * the pose becomes prone. Face up therefore means head toward -x with the
+ * legs running out to +x, and the knees bending up away from the floor.
+ */
 const SUPINE_PELVIS: Vec2 = [0, 0.13];
 const supineShoulders: Vec2 = [
-  SUPINE_PELVIS[0] + BODY.spine,
+  SUPINE_PELVIS[0] - BODY.spine,
   SUPINE_PELVIS[1] + 0.02,
 ];
 
-/** Arms down by the sides, palms on the floor. */
-const SUPINE_HAND: Vec2 = [supineShoulders[0] - 0.48, 0.07];
+/** Head angle that points the face at the ceiling. */
+const SUPINE_HEAD = -90 * DEG;
+
+/** Arms down by the sides, palms on the floor beside the hips. */
+const SUPINE_HAND: Vec2 = [supineShoulders[0] + 0.48, 0.07];
+
+/** Knees bend up, away from the floor. */
+const SUPINE_KNEE_POLE: Vec2 = [0, 1];
+
+/** Ankle position for a leg raised `deg` above the floor, lying face up. */
+function raisedLeg(pelvis: Vec2, deg: number, reach = 0.86): Vec2 {
+  const a = deg * DEG;
+  return [pelvis[0] + reach * Math.cos(a), pelvis[1] + reach * Math.sin(a)];
+}
 
 export const EXERCISES: Record<string, ExerciseDef> = {
   // ---- Ported from the reference set ------------------------------------
@@ -461,20 +479,20 @@ export const EXERCISES: Record<string, ExerciseDef> = {
     ],
     props: [],
     pose(d) {
-      const pelvis: Vec2 = [lerp(0, -0.02, d), lerp(0.14, 0.44, d)];
+      const pelvis: Vec2 = [lerp(0, 0.02, d), lerp(0.14, 0.44, d)];
       // Shoulders stay planted while the hips rise, so the body forms a line.
-      const shoulders: Vec2 = [pelvis[0] + 0.5, lerp(0.16, 0.2, d)];
+      const shoulders: Vec2 = [pelvis[0] - 0.5, lerp(0.16, 0.2, d)];
       return {
         pelvis,
         shoulders,
-        headAngle: 96 * DEG,
-        ankle: [pelvis[0] - 0.5, 0.08],
-        toe: [pelvis[0] - 0.62, 0.05],
-        kneePole: [1, 0.2],
+        headAngle: SUPINE_HEAD,
+        ankle: [pelvis[0] + 0.5, 0.08],
+        toe: [pelvis[0] + 0.62, 0.05],
+        kneePole: SUPINE_KNEE_POLE,
         footZ: 0.13,
         kneeOut: 0,
-        hand: [shoulders[0] + 0.1, 0.06],
-        elbowPole: [0, -1],
+        hand: [shoulders[0] + 0.46, 0.06],
+        elbowPole: [0, 1],
         handZ: 0.26,
         elbowFlare: 0,
       };
@@ -490,22 +508,22 @@ export const EXERCISES: Record<string, ExerciseDef> = {
       const pelvis = SUPINE_PELVIS;
       // Knee stays bent and over the hip; only the heel drops toward the floor.
       const ankle: Vec2 = [
-        lerp(pelvis[0] - 0.42, pelvis[0] - 0.5, d),
+        lerp(pelvis[0] + 0.42, pelvis[0] + 0.5, d),
         lerp(0.57, 0.14, d),
       ];
       return {
         pelvis,
         shoulders: supineShoulders,
-        headAngle: 92 * DEG,
+        headAngle: SUPINE_HEAD,
         ankle,
-        toe: [ankle[0] - 0.1, ankle[1] - 0.03],
-        kneePole: [1, 0.6],
+        toe: [ankle[0] + 0.1, ankle[1] - 0.03],
+        kneePole: SUPINE_KNEE_POLE,
         footZ: 0.12,
         kneeOut: 0,
         // The other knee holds its position over the hip.
-        ankleFar: [pelvis[0] - 0.42, 0.57],
-        toeFar: [pelvis[0] - 0.52, 0.54],
-        kneePoleFar: [1, 0.6],
+        ankleFar: [pelvis[0] + 0.42, 0.57],
+        toeFar: [pelvis[0] + 0.52, 0.54],
+        kneePoleFar: SUPINE_KNEE_POLE,
         hand: SUPINE_HAND,
         elbowPole: [0, 1],
         handZ: 0.2,
@@ -527,26 +545,21 @@ export const EXERCISES: Record<string, ExerciseDef> = {
     pose(d) {
       const pelvis = SUPINE_PELVIS;
       // Working leg stays straight: the ankle swings on a fixed radius.
-      const angle = lerp(58, 4, d) * DEG;
-      const reach = 0.86;
-      const ankle: Vec2 = [
-        pelvis[0] - reach * Math.cos(angle),
-        pelvis[1] + reach * Math.sin(angle),
-      ];
+      const ankle = raisedLeg(pelvis, lerp(58, 4, d));
       return {
         pelvis,
         shoulders: supineShoulders,
-        headAngle: 92 * DEG,
+        headAngle: SUPINE_HEAD,
         ankle,
-        toe: [ankle[0] - 0.09, ankle[1] + 0.04],
-        kneePole: [1, 0.3],
+        toe: [ankle[0] + 0.09, ankle[1] + 0.04],
+        kneePole: SUPINE_KNEE_POLE,
         footZ: 0.11,
         kneeOut: 0,
         // The other knee stays bent with the foot planted, which is what
         // protects the back on this rung.
-        ankleFar: [pelvis[0] - 0.46, 0.08],
-        toeFar: [pelvis[0] - 0.58, 0.05],
-        kneePoleFar: [1, 0.4],
+        ankleFar: [pelvis[0] + 0.46, 0.08],
+        toeFar: [pelvis[0] + 0.58, 0.05],
+        kneePoleFar: SUPINE_KNEE_POLE,
         hand: SUPINE_HAND,
         elbowPole: [0, 1],
         handZ: 0.2,
@@ -562,19 +575,14 @@ export const EXERCISES: Record<string, ExerciseDef> = {
     props: [],
     pose(d) {
       const pelvis = SUPINE_PELVIS;
-      const angle = lerp(86, 5, d) * DEG;
-      const reach = 0.86;
-      const ankle: Vec2 = [
-        pelvis[0] - reach * Math.cos(angle),
-        pelvis[1] + reach * Math.sin(angle),
-      ];
+      const ankle = raisedLeg(pelvis, lerp(86, 5, d));
       return {
         pelvis,
         shoulders: supineShoulders,
-        headAngle: 92 * DEG,
+        headAngle: SUPINE_HEAD,
         ankle,
-        toe: [ankle[0] - 0.09, ankle[1] + 0.04],
-        kneePole: [1, 0.3],
+        toe: [ankle[0] + 0.09, ankle[1] + 0.04],
+        kneePole: SUPINE_KNEE_POLE,
         footZ: 0.1,
         kneeOut: 0,
         hand: SUPINE_HAND,
@@ -687,23 +695,18 @@ export const EXERCISES: Record<string, ExerciseDef> = {
     pose(d) {
       const pelvis = SUPINE_PELVIS;
       // The leg straightens as it lowers, so the lever grows through the rep.
-      const reach = lerp(0.52, 0.86, d);
-      const angle = lerp(72, 6, d) * DEG;
-      const ankle: Vec2 = [
-        pelvis[0] - reach * Math.cos(angle),
-        pelvis[1] + reach * Math.sin(angle),
-      ];
+      const ankle = raisedLeg(pelvis, lerp(72, 6, d), lerp(0.52, 0.86, d));
       return {
         pelvis,
         shoulders: supineShoulders,
-        headAngle: 92 * DEG,
+        headAngle: SUPINE_HEAD,
         ankle,
-        toe: [ankle[0] - 0.1, ankle[1] + 0.02],
-        kneePole: [1, 0.5],
+        toe: [ankle[0] + 0.1, ankle[1] + 0.02],
+        kneePole: SUPINE_KNEE_POLE,
         footZ: 0.12,
-        ankleFar: [pelvis[0] - 0.42, 0.57],
-        toeFar: [pelvis[0] - 0.52, 0.54],
-        kneePoleFar: [1, 0.6],
+        ankleFar: [pelvis[0] + 0.42, 0.57],
+        toeFar: [pelvis[0] + 0.52, 0.54],
+        kneePoleFar: SUPINE_KNEE_POLE,
         hand: SUPINE_HAND,
         elbowPole: [0, 1],
         handZ: 0.2,
@@ -719,20 +722,20 @@ export const EXERCISES: Record<string, ExerciseDef> = {
     pose(d) {
       const pelvis = SUPINE_PELVIS;
       const ankle: Vec2 = [
-        lerp(pelvis[0] - 0.46, pelvis[0] - 0.3, d),
+        lerp(pelvis[0] + 0.46, pelvis[0] + 0.3, d),
         lerp(0.08, 0.46, d),
       ];
       return {
         pelvis,
         shoulders: supineShoulders,
-        headAngle: 92 * DEG,
+        headAngle: SUPINE_HEAD,
         ankle,
-        toe: [ankle[0] - 0.11, ankle[1] - 0.02],
-        kneePole: [1, 0.5],
+        toe: [ankle[0] + 0.11, ankle[1] - 0.02],
+        kneePole: SUPINE_KNEE_POLE,
         footZ: 0.12,
-        ankleFar: [pelvis[0] - 0.46, 0.08],
-        toeFar: [pelvis[0] - 0.58, 0.05],
-        kneePoleFar: [1, 0.4],
+        ankleFar: [pelvis[0] + 0.46, 0.08],
+        toeFar: [pelvis[0] + 0.58, 0.05],
+        kneePoleFar: SUPINE_KNEE_POLE,
         hand: SUPINE_HAND,
         elbowPole: [0, 1],
         handZ: 0.2,
@@ -748,16 +751,16 @@ export const EXERCISES: Record<string, ExerciseDef> = {
     pose(d) {
       const pelvis = SUPINE_PELVIS;
       const ankle: Vec2 = [
-        lerp(pelvis[0] - 0.5, pelvis[0] - 0.42, d),
+        lerp(pelvis[0] + 0.5, pelvis[0] + 0.42, d),
         lerp(0.12, 0.57, d),
       ];
       return {
         pelvis,
         shoulders: supineShoulders,
-        headAngle: 92 * DEG,
+        headAngle: SUPINE_HEAD,
         ankle,
-        toe: [ankle[0] - 0.11, ankle[1] - 0.02],
-        kneePole: [1, 0.6],
+        toe: [ankle[0] + 0.11, ankle[1] - 0.02],
+        kneePole: SUPINE_KNEE_POLE,
         footZ: 0.12,
         hand: SUPINE_HAND,
         elbowPole: [0, 1],
@@ -773,19 +776,14 @@ export const EXERCISES: Record<string, ExerciseDef> = {
     props: [],
     pose(d) {
       const pelvis = SUPINE_PELVIS;
-      const angle = lerp(62, 10, d) * DEG;
-      const reach = 0.84;
-      const ankle: Vec2 = [
-        pelvis[0] - reach * Math.cos(angle),
-        pelvis[1] + reach * Math.sin(angle),
-      ];
+      const ankle = raisedLeg(pelvis, lerp(62, 10, d), 0.84);
       return {
         pelvis,
         shoulders: supineShoulders,
-        headAngle: 92 * DEG,
+        headAngle: SUPINE_HEAD,
         ankle,
-        toe: [ankle[0] - 0.09, ankle[1] + 0.04],
-        kneePole: [1, 0.35],
+        toe: [ankle[0] + 0.09, ankle[1] + 0.04],
+        kneePole: SUPINE_KNEE_POLE,
         footZ: 0.11,
         hand: SUPINE_HAND,
         elbowPole: [0, 1],
@@ -805,7 +803,7 @@ export const EXERCISES: Record<string, ExerciseDef> = {
       return {
         pelvis,
         shoulders,
-        headAngle: 92 * DEG,
+        headAngle: SUPINE_HEAD,
         ankle: [pelvis[0] - 0.5, 0.08],
         toe: [pelvis[0] - 0.62, 0.05],
         kneePole: [1, 0.2],
@@ -833,17 +831,17 @@ export const EXERCISES: Record<string, ExerciseDef> = {
     props: [],
     pose(d) {
       const pelvis: Vec2 = [0, lerp(0.42, 0.3, d)];
-      const shoulders: Vec2 = [pelvis[0] + 0.5, 0.18];
+      const shoulders: Vec2 = [pelvis[0] - 0.5, 0.18];
       return {
         pelvis,
         shoulders,
-        headAngle: 94 * DEG,
-        ankle: [lerp(pelvis[0] - 0.46, pelvis[0] - 0.84, d), 0.07],
-        toe: [lerp(pelvis[0] - 0.58, pelvis[0] - 0.96, d), 0.05],
-        kneePole: [1, 0.3],
+        headAngle: SUPINE_HEAD,
+        ankle: [lerp(pelvis[0] + 0.46, pelvis[0] + 0.84, d), 0.07],
+        toe: [lerp(pelvis[0] + 0.58, pelvis[0] + 0.96, d), 0.05],
+        kneePole: SUPINE_KNEE_POLE,
         footZ: 0.12,
-        hand: [shoulders[0] + 0.1, 0.06],
-        elbowPole: [0, -1],
+        hand: [shoulders[0] + 0.46, 0.06],
+        elbowPole: [0, 1],
         handZ: 0.26,
       };
     },

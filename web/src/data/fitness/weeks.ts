@@ -69,8 +69,8 @@ export const WEEKS: WeekEntry[] = [
     phase: 1,
     type: 'Build',
     focus:
-      'Band pull-ups 4 x 8 on a lighter band. Diamond push-up finisher: 6 at ' +
-      'the top of each minute, 6 rounds. Crow 20 s. Box squats 3 x 20.',
+      'Band pull-ups 4 x 8 on a lighter band. Diamond push-ups 3 x 15. Crow ' +
+      '20 s. Box squats 3 x 20.',
   },
   {
     week: 10,
@@ -108,8 +108,7 @@ export const WEEKS: WeekEntry[] = [
     phase: 2,
     type: 'Build',
     focus:
-      'Pull-ups 5 x 3. Feet-elevated pike push-ups. Archer push-ups, slow on ' +
-      'the straight-arm side.',
+      'Pull-ups 5 x 3. Feet-elevated pike push-ups. Archer push-up negatives.',
   },
   {
     week: 16,

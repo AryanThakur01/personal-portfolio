@@ -17,8 +17,22 @@ import {
  */
 
 /**
+ * Anatomical range of the middle joint, in degrees of flexion from straight.
+ *
+ * A knee flexes to about 140 and a human one does not go past straight; an
+ * elbow is about 145 with a few degrees of carrying extension. Clamping to
+ * these stops a target that is out of reach from producing a joint angle no
+ * body could make.
+ */
+export const JOINT_RANGE = {
+  knee: { min: 2, max: 142 },
+  elbow: { min: 3, max: 146 },
+} as const;
+
+/**
  * Two-bone IK in the xy plane. `pole` decides which way the middle joint
- * (knee or elbow) bends, so limbs never hyperextend or snap inside out.
+ * (knee or elbow) bends, so limbs never hyperextend or snap inside out, and
+ * `range` keeps the flexion inside what the joint can actually do.
  */
 export function ik(
   a: Vec2,
@@ -26,6 +40,7 @@ export function ik(
   l1: number,
   l2: number,
   pole: Vec2,
+  range: { min: number; max: number } = JOINT_RANGE.knee,
 ): { joint: Vec2; end: Vec2 } {
   const dx = b[0] - a[0];
   const dy = b[1] - a[1];
@@ -33,9 +48,22 @@ export function ik(
   const ux = dx / full;
   const uy = dy / full;
 
-  // Clamp the reach so the solve stays valid when a target is out of range.
-  let d = Math.min(full, l1 + l2 - 0.001);
-  d = Math.max(d, Math.abs(l1 - l2) + 0.001);
+  // Convert the joint's flexion limits into the span the limb may cover, via
+  // the cosine rule, then clamp the reach into that span. This is what keeps
+  // an unreachable target from hyperextending a knee or folding an elbow
+  // further than it goes.
+  const spanAt = (flexDeg: number) => {
+    const interior = Math.PI - flexDeg * (Math.PI / 180);
+    return Math.sqrt(
+      Math.max(0, l1 * l1 + l2 * l2 - 2 * l1 * l2 * Math.cos(interior)),
+    );
+  };
+
+  const maxSpan = Math.min(spanAt(range.min), l1 + l2 - 0.001);
+  const minSpan = Math.max(spanAt(range.max), Math.abs(l1 - l2) + 0.001);
+
+  let d = Math.min(full, maxSpan);
+  d = Math.max(d, minSpan);
 
   const aa = (l1 * l1 - l2 * l2 + d * d) / (2 * d);
   const h = Math.sqrt(Math.max(0, l1 * l1 - aa * aa));
@@ -394,7 +422,14 @@ export class Stage {
       const handT = near ? p.hand : (p.handFar ?? p.hand);
       const elbowP = near ? p.elbowPole : (p.elbowPoleFar ?? p.elbowPole);
 
-      const leg = ik(p.pelvis, ankleT, BODY.thigh, BODY.shin, kneeP);
+      const leg = ik(
+        p.pelvis,
+        ankleT,
+        BODY.thigh,
+        BODY.shin,
+        kneeP,
+        JOINT_RANGE.knee,
+      );
       const hip: Vec3 = [p.pelvis[0], p.pelvis[1], sd * 0.09];
       const knee: Vec3 = [
         leg.joint[0],
@@ -528,56 +563,78 @@ export function frameExercise(
   fovDeg: number,
   aspect: number,
 ): { target: [number, number, number]; radius: number } {
-  let minX = Infinity;
-  let maxX = -Infinity;
-  let minY = Infinity;
-  let maxY = -Infinity;
+  // A bounding sphere rather than a flat box: the camera orbits, so the
+  // extent that matters changes with the angle. A sphere frames correctly
+  // from every side, which a 2D box does not.
+  const pts: [number, number, number][] = [];
 
-  const see = (pt: Vec2) => {
-    minX = Math.min(minX, pt[0]);
-    maxX = Math.max(maxX, pt[0]);
-    minY = Math.min(minY, pt[1]);
-    maxY = Math.max(maxY, pt[1]);
+  const see = (pt: Vec2, z = 0) => {
+    pts.push([pt[0], pt[1], z]);
   };
 
   for (let i = 0; i <= 12; i++) {
     const p = pose(i / 12);
+    // Limbs are mirrored in z, so both sides bound the figure's width.
+    const fz = p.footZ + (p.kneeOut ?? 0);
+    const hz = p.handZ + (p.elbowFlare ?? 0);
+
+    for (const z of [fz, -fz]) {
+      see(p.ankle, z);
+      see(p.toe, z);
+      if (p.ankleFar) see(p.ankleFar, z);
+      if (p.toeFar) see(p.toeFar, z);
+    }
+    for (const z of [hz, -hz]) {
+      see(p.hand, z);
+      if (p.handFar) see(p.handFar, z);
+    }
+    for (const z of [0.19, -0.19]) see(p.shoulders, z);
+
     see(p.pelvis);
-    see(p.shoulders);
-    see(p.ankle);
-    see(p.toe);
-    see(p.hand);
-    if (p.ankleFar) see(p.ankleFar);
-    if (p.toeFar) see(p.toeFar);
-    if (p.handFar) see(p.handFar);
-    // The head sits a little beyond the shoulders.
     see([
       p.shoulders[0] + 0.34 * Math.sin(p.headAngle),
       p.shoulders[1] + 0.34 * Math.cos(p.headAngle),
     ]);
   }
 
-  // Limb thickness and the floor need a little room beyond the joints.
-  const pad = 0.22;
-  minX -= pad;
-  maxX += pad;
-  minY -= pad;
-  maxY += pad;
+  let minX = Infinity;
+  let maxX = -Infinity;
+  let minY = Infinity;
+  let maxY = -Infinity;
+  let minZ = Infinity;
+  let maxZ = -Infinity;
 
-  const width = maxX - minX;
-  const height = maxY - minY;
+  for (const [x, y, z] of pts) {
+    minX = Math.min(minX, x);
+    maxX = Math.max(maxX, x);
+    minY = Math.min(minY, y);
+    maxY = Math.max(maxY, y);
+    minZ = Math.min(minZ, z);
+    maxZ = Math.max(maxZ, z);
+  }
 
+  const centre: [number, number, number] = [
+    (minX + maxX) / 2,
+    (minY + maxY) / 2,
+    (minZ + maxZ) / 2,
+  ];
+
+  // Radius of the sphere enclosing every contact point, plus room for limb
+  // thickness and the shoes.
+  let r = 0;
+  for (const [x, y, z] of pts) {
+    r = Math.max(r, Math.hypot(x - centre[0], y - centre[1], z - centre[2]));
+  }
+  r += 0.16;
+
+  // Fit that sphere inside whichever field of view is tighter.
   const vFov = fovDeg * (Math.PI / 180);
   const hFov = 2 * Math.atan(Math.tan(vFov / 2) * aspect);
-
-  const radius = Math.max(
-    height / 2 / Math.tan(vFov / 2),
-    width / 2 / Math.tan(hFov / 2),
-  );
+  const fit = Math.min(vFov, hFov) / 2;
 
   return {
-    target: [(minX + maxX) / 2, (minY + maxY) / 2, 0],
-    radius: Math.max(radius * 1.12, 1.6),
+    target: centre,
+    radius: Math.max(r / Math.sin(fit), 1.4),
   };
 }
 

@@ -49,6 +49,9 @@ const supineShoulders: Vec2 = [
   SUPINE_PELVIS[1] + 0.02,
 ];
 
+/** Arms down by the sides, palms on the floor. */
+const SUPINE_HAND: Vec2 = [supineShoulders[0] - 0.48, 0.07];
+
 export const EXERCISES: Record<string, ExerciseDef> = {
   // ---- Ported from the reference set ------------------------------------
   'box-squat': {
@@ -503,8 +506,8 @@ export const EXERCISES: Record<string, ExerciseDef> = {
         ankleFar: [pelvis[0] - 0.42, 0.57],
         toeFar: [pelvis[0] - 0.52, 0.54],
         kneePoleFar: [1, 0.6],
-        hand: [supineShoulders[0] + 0.08, 0.52],
-        elbowPole: [0, -1],
+        hand: SUPINE_HAND,
+        elbowPole: [0, 1],
         handZ: 0.2,
         elbowFlare: 0,
       };
@@ -544,8 +547,8 @@ export const EXERCISES: Record<string, ExerciseDef> = {
         ankleFar: [pelvis[0] - 0.46, 0.08],
         toeFar: [pelvis[0] - 0.58, 0.05],
         kneePoleFar: [1, 0.4],
-        hand: [supineShoulders[0] + 0.08, 0.52],
-        elbowPole: [0, -1],
+        hand: SUPINE_HAND,
+        elbowPole: [0, 1],
         handZ: 0.2,
         elbowFlare: 0,
       };
@@ -574,8 +577,8 @@ export const EXERCISES: Record<string, ExerciseDef> = {
         kneePole: [1, 0.3],
         footZ: 0.1,
         kneeOut: 0,
-        hand: [supineShoulders[0] + 0.08, 0.52],
-        elbowPole: [0, -1],
+        hand: SUPINE_HAND,
+        elbowPole: [0, 1],
         handZ: 0.2,
         elbowFlare: 0,
       };
@@ -701,8 +704,8 @@ export const EXERCISES: Record<string, ExerciseDef> = {
         ankleFar: [pelvis[0] - 0.42, 0.57],
         toeFar: [pelvis[0] - 0.52, 0.54],
         kneePoleFar: [1, 0.6],
-        hand: [supineShoulders[0] + 0.08, 0.52],
-        elbowPole: [0, -1],
+        hand: SUPINE_HAND,
+        elbowPole: [0, 1],
         handZ: 0.2,
       };
     },
@@ -730,8 +733,8 @@ export const EXERCISES: Record<string, ExerciseDef> = {
         ankleFar: [pelvis[0] - 0.46, 0.08],
         toeFar: [pelvis[0] - 0.58, 0.05],
         kneePoleFar: [1, 0.4],
-        hand: [supineShoulders[0] + 0.08, 0.52],
-        elbowPole: [0, -1],
+        hand: SUPINE_HAND,
+        elbowPole: [0, 1],
         handZ: 0.2,
       };
     },
@@ -756,8 +759,8 @@ export const EXERCISES: Record<string, ExerciseDef> = {
         toe: [ankle[0] - 0.11, ankle[1] - 0.02],
         kneePole: [1, 0.6],
         footZ: 0.12,
-        hand: [supineShoulders[0] + 0.08, 0.52],
-        elbowPole: [0, -1],
+        hand: SUPINE_HAND,
+        elbowPole: [0, 1],
         handZ: 0.2,
       };
     },
@@ -784,8 +787,8 @@ export const EXERCISES: Record<string, ExerciseDef> = {
         toe: [ankle[0] - 0.09, ankle[1] + 0.04],
         kneePole: [1, 0.35],
         footZ: 0.11,
-        hand: [supineShoulders[0] + 0.08, 0.52],
-        elbowPole: [0, -1],
+        hand: SUPINE_HAND,
+        elbowPole: [0, 1],
         handZ: 0.2,
       };
     },

@@ -131,11 +131,6 @@ export interface WeekEntry {
   type: WeekType;
   /** Focus and target for the week. */
   focus: string;
-  /**
-   * Reconciles a target that does not match how the movement is actually
-   * prescribed in the workouts. The workout tables are authoritative.
-   */
-  note?: string;
 }
 
 export interface SkillEstimate {

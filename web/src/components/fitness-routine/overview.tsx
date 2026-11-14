@@ -1,4 +1,4 @@
-import { Info, RotateCcw } from 'lucide-react';
+import { RotateCcw } from 'lucide-react';
 import {
   CURRENT_RUNGS,
   DAILY_TRACK,
@@ -126,15 +126,6 @@ export function Overview({ state }: { state: ProgramState }) {
           One target per pattern, spread across this week's sessions. Today's
           session is below.
         </p>
-
-        {weekEntry.note && (
-          <div className="flex items-start gap-2.5 mb-5 border border-[rgba(245,158,11,0.3)] bg-[rgba(245,158,11,0.07)] rounded-[4px] px-3 py-2.5">
-            <Info size={13} className="text-amber shrink-0 mt-[2px]" />
-            <span className="text-[12.5px] text-text-2 leading-[1.55]">
-              {weekEntry.note}
-            </span>
-          </div>
-        )}
 
         <div className="flex flex-col gap-4">
           <div>

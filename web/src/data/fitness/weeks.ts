@@ -69,13 +69,8 @@ export const WEEKS: WeekEntry[] = [
     phase: 1,
     type: 'Build',
     focus:
-      'Band pull-ups 4 x 8 on a lighter band. Diamond push-ups 3 x 15. Crow ' +
-      '20 s. Box squats 3 x 20.',
-    note:
-      'Diamond push-ups are not a straight-set exercise in Phase 1: they are ' +
-      "Workout B's finisher, 6 at the top of each minute for 6 minutes. Do " +
-      'that rather than 3 x 15. Box squats are Workout C (4 x 8 to 12) and ' +
-      'Workout F (3 x 8); 3 x 20 is the target to build toward.',
+      'Band pull-ups 4 x 8 on a lighter band. Diamond push-up finisher: 6 at ' +
+      'the top of each minute, 6 rounds. Crow 20 s. Box squats 3 x 20.',
   },
   {
     week: 10,
@@ -113,10 +108,8 @@ export const WEEKS: WeekEntry[] = [
     phase: 2,
     type: 'Build',
     focus:
-      'Pull-ups 5 x 3. Feet-elevated pike push-ups. Archer push-up negatives.',
-    note:
-      'Phase 2 has no archer negatives row. Use the archer push-ups in ' +
-      'Workout E and lower slowly on the straight-arm side.',
+      'Pull-ups 5 x 3. Feet-elevated pike push-ups. Archer push-ups, slow on ' +
+      'the straight-arm side.',
   },
   {
     week: 16,

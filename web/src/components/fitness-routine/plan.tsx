@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Info } from 'lucide-react';
 import {
   PHASES,
   WEEKS,
@@ -99,17 +98,6 @@ export function Plan({ state }: { state: ProgramState }) {
                     )}>
                     {entry.focus}
                   </div>
-                  {entry.note && (
-                    <div className="flex items-start gap-2 mt-2 border-l-2 border-amber pl-2.5 py-1">
-                      <Info
-                        size={12}
-                        className="text-amber shrink-0 mt-[2px]"
-                      />
-                      <span className="text-[12px] text-text-3 leading-[1.5]">
-                        {entry.note}
-                      </span>
-                    </div>
-                  )}
                 </div>
 
                 <div className="shrink-0 font-mono text-[10.5px] text-text-4 text-right leading-[1.5] hidden sm:block">

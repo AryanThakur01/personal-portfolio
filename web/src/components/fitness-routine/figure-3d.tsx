@@ -36,26 +36,40 @@ export function Figure3D({
     stage.cam.azTarget = azimuth;
     stage.showProps(exercise.props);
 
-    // Framed from the movement itself, so nothing drifts out of the panel
-    // whatever shape the panel is.
-    let focus = frameExercise(
-      exercise.pose,
-      stage.camera.fov,
-      mount.clientWidth / Math.max(1, mount.clientHeight),
-    );
-    stage.cam.target = [...focus.target];
-    stage.cam.radius = focus.radius;
+    // Framing is recomputed every frame from the canvas's live size. Doing it
+    // once at mount is not enough: the panel often has no height yet when the
+    // stage is built, which leaves the camera aspect wrong and the figure
+    // somewhere off in a corner.
+    let focus = frameExercise(exercise.pose, stage.camera.fov, 1);
+    let lastW = 0;
+    let lastH = 0;
 
-    const observer = new ResizeObserver(() => {
+    const measure = () => {
+      const w = mount.clientWidth;
+      const h = mount.clientHeight;
+      if (!w || !h) return false;
+      if (w === lastW && h === lastH) return true;
+
+      lastW = w;
+      lastH = h;
       stage.resize();
-      focus = frameExercise(
-        exercise.pose,
-        stage.camera.fov,
-        mount.clientWidth / Math.max(1, mount.clientHeight),
-      );
-    });
+      focus = frameExercise(exercise.pose, stage.camera.fov, w / h);
+      return true;
+    };
+
+    // Snap straight to the framing the first time a real size is available,
+    // rather than easing in from the default.
+    let settled = false;
+    const snap = () => {
+      if (settled || !measure()) return;
+      settled = true;
+      stage.cam.target = [...focus.target];
+      stage.cam.radius = focus.radius;
+    };
+    snap();
+
+    const observer = new ResizeObserver(snap);
     observer.observe(mount);
-    stage.resize();
 
     const reduced = window.matchMedia?.(
       '(prefers-reduced-motion: reduce)',
@@ -68,6 +82,7 @@ export function Figure3D({
     let lastPhase = '';
 
     const frame = (now: number) => {
+      snap();
       const dt = Math.min(0.05, (now - last) / 1000);
       last = now;
       if (!reduced) t += dt / repSeconds;

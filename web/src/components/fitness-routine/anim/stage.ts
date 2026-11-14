@@ -120,11 +120,20 @@ export class Stage {
     const h = host.clientHeight || 420;
 
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    // If the context could not be created there is nothing to draw; the
+    // caller falls back to the flat figure rather than showing an empty box.
+    if (!this.renderer.getContext()) {
+      throw new Error('WebGL unavailable');
+    }
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-    this.renderer.setSize(w, h, false);
+    this.renderer.setSize(w, h);
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    host.appendChild(this.renderer.domElement);
+    const canvas = this.renderer.domElement;
+    canvas.style.display = 'block';
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    host.appendChild(canvas);
 
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(34, w / h, 0.1, 60);
@@ -527,7 +536,7 @@ export class Stage {
     const w = this.host.clientWidth;
     const h = this.host.clientHeight;
     if (!w || !h) return;
-    this.renderer.setSize(w, h, false);
+    this.renderer.setSize(w, h);
     this.camera.aspect = w / h;
     this.camera.updateProjectionMatrix();
   }
@@ -546,6 +555,10 @@ export class Stage {
       }
     });
     this.renderer.dispose();
+    // dispose() alone leaves the WebGL context alive. Browsers cap a page at
+    // around 16, so without this every modal that opens leaks one and the
+    // figure silently stops rendering once the cap is hit.
+    this.renderer.forceContextLoss();
     this.renderer.domElement.remove();
   }
 }

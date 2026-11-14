@@ -13,25 +13,36 @@ export function Figure3D({
   className,
   azimuth = 0.6,
   onPhase,
+  onFail,
 }: {
   exercise: ExerciseDef;
   className?: string;
   /** Starting camera angle: 0 side on, 1.45 front on. */
   azimuth?: number;
   onPhase?: (phase: string) => void;
+  /** Called when the scene cannot be created, so a fallback can be shown. */
+  onFail?: () => void;
 }) {
   const host = useRef<HTMLDivElement>(null);
   const phaseRef = useRef(onPhase);
+  const failRef = useRef(onFail);
 
   useEffect(() => {
     phaseRef.current = onPhase;
-  }, [onPhase]);
+    failRef.current = onFail;
+  }, [onPhase, onFail]);
 
   useEffect(() => {
     const mount = host.current;
     if (!mount) return;
 
-    const stage = new Stage(mount);
+    let stage: Stage;
+    try {
+      stage = new Stage(mount);
+    } catch {
+      failRef.current?.();
+      return;
+    }
     stage.cam.az = azimuth;
     stage.cam.azTarget = azimuth;
     stage.showProps(exercise.props);
@@ -70,6 +81,13 @@ export function Figure3D({
 
     const observer = new ResizeObserver(snap);
     observer.observe(mount);
+
+    const canvas = stage.renderer.domElement;
+    const onLost = (e: Event) => {
+      e.preventDefault();
+      failRef.current?.();
+    };
+    canvas.addEventListener('webglcontextlost', onLost);
 
     const reduced = window.matchMedia?.(
       '(prefers-reduced-motion: reduce)',
@@ -120,6 +138,7 @@ export function Figure3D({
     return () => {
       cancelAnimationFrame(raf);
       observer.disconnect();
+      canvas.removeEventListener('webglcontextlost', onLost);
       stage.dispose();
     };
   }, [exercise, azimuth]);

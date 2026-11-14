@@ -25,8 +25,9 @@ export function MovementView({ movement }: { movement: Movement }) {
   const exercise = exerciseFor(movement.id);
   const [phase, setPhase] = useState('');
   const [view, setView] = useState(1);
+  const [failed, setFailed] = useState(false);
 
-  if (!exercise) {
+  if (!exercise || failed) {
     return (
       <div className="border border-border bg-bg rounded-[4px]">
         <Figure sequence={movement.sequence} className="w-full h-[230px]" />
@@ -48,6 +49,7 @@ export function MovementView({ movement }: { movement: Movement }) {
           azimuth={VIEWS[view][1]}
           className="w-full h-[260px]"
           onPhase={setPhase}
+          onFail={() => setFailed(true)}
         />
       </Suspense>
 
